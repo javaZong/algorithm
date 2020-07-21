@@ -33,6 +33,8 @@ public class ForeachBinaryTree {
         preRecursion(array);
 
         preForeach(array);
+
+        midRecursion(array);
     }
 
     /**
@@ -117,6 +119,8 @@ public class ForeachBinaryTree {
 
     /**
      * 前序遍历-递归
+     * 根节点-》遍历左子树节点—》遍历右子树节点
+     * 1,2,4,8,5,3,6,7
      *
      * @param array
      */
@@ -140,8 +144,10 @@ public class ForeachBinaryTree {
 
     /**
      * 前序遍历-循环
-     * 可以递归解决的都可以利用栈的数据结构来写成循环
-     * 先进后出
+     * 可以递归解决的都可以利用栈或队列的数据结构来写成循环
+     * 先进后出 则使用栈
+     * 先进先出 使用队列
+     * 1、右子树节点先较与下一代左子树节点，先进后出则使用栈来完成循环
      *
      * @param array
      */
@@ -172,7 +178,42 @@ public class ForeachBinaryTree {
     }
 
     /**
+     * 中序遍历：
+     * 先左子树节点，然后父节点，然后右子树节点
+     *
+     * @param array
+     */
+    public static void midRecursion(int[] array) {
+        if (array == null || array.length < 1) {
+            return;
+        }
+        midRecursion(0, array);
+    }
+
+    private static void midRecursion(int index, int[] array) {
+        if (index > array.length - 1) {
+            return;
+        }
+        int leftIndex = index * 2 + 1;
+        midRecursion(leftIndex, array);
+        // 不管何种遍历顺序，本质上是看节点的打印位置，
+        // 是当前节点，还是下一代节点，前序遍历是打印当前节点，中序和后续遍历是打印下一代节点，也就是递归后的节点
+        int nodeValue = array[index];
+        System.out.println("midRecursion=" + nodeValue);
+        int rightIndex = leftIndex + 1;
+        midRecursion(rightIndex, array);
+    }
+
+    /**
      * 层序遍历-循环
+     * 　add        增加一个元索                     如果队列已满，则抛出一个IIIegaISlabEepeplian异常
+     * 　　remove   移除并返回队列头部的元素    如果队列为空，则抛出一个NoSuchElementException异常
+     * 　　element  返回队列头部的元素             如果队列为空，则抛出一个NoSuchElementException异常
+     * 　　offer       添加一个元素并返回true       如果队列已满，则返回false
+     * 　　poll         移除并返问队列头部的元素    如果队列为空，则返回null
+     * 　　peek       返回队列头部的元素             如果队列为空，则返回null
+     * 　　put         添加一个元素                      如果队列满，则阻塞
+     * 　　take        移除并返回队列头部的元素     如果队列为空，则阻塞
      *
      * @param array
      */
