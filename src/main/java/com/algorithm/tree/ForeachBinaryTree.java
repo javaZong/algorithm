@@ -1,10 +1,7 @@
 package com.algorithm.tree;
 
 import javax.swing.plaf.basic.BasicArrowButton;
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * 遍历二叉树
@@ -35,6 +32,8 @@ public class ForeachBinaryTree {
         preForeach(array);
 
         midRecursion(array);
+
+        midForeachLoop(array);
     }
 
     /**
@@ -203,6 +202,50 @@ public class ForeachBinaryTree {
         int rightIndex = leftIndex + 1;
         midRecursion(rightIndex, array);
     }
+
+    /**
+     * 中序遍历-循环
+     * 8,4,2,1,5,1,6,3,7
+     * 左子树节点-父节点-右子树节点
+     * 父节点先进后出
+     * <p>
+     * 栈：
+     * peek() 查看堆顶元素但不移除
+     * pop() 查看堆顶元素返回并移除
+     * push() 压入堆顶
+     * 需要知道之前已被访问的节点
+     *
+     * @param array
+     */
+    public static void midForeachLoop(int[] array) {
+        int maxIndex;
+        if (array == null || (maxIndex = array.length-1) < 0) {
+            return;
+        }
+        Stack<Integer> stack = new Stack<>();
+        Set<Integer> set = new HashSet<>();
+        stack.push(0);
+        Integer curIndex = 0;
+        while (!stack.isEmpty()) {
+            curIndex = stack.peek();
+            int leftIndex = curIndex * 2 + 1;
+            if (!set.contains(leftIndex) && leftIndex <= maxIndex) {
+                // 存在左子树节点，则压入栈
+                stack.push(leftIndex);
+                set.add(leftIndex);
+                continue;
+            }
+            // 不存在，则代表左子树已遍历完,开始遍历右子树节点
+            curIndex = stack.pop();
+            System.out.println("midForeachLoop=" + array[curIndex]);
+            int rightIndex = curIndex * 2 + 2;
+            if (!set.contains(rightIndex) && rightIndex <= maxIndex) {
+                stack.push(rightIndex);
+                set.add(rightIndex);
+            }
+        }
+    }
+
 
     /**
      * 层序遍历-循环
