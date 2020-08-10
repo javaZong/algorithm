@@ -1,19 +1,14 @@
 package com.algorithm.list;
 
+import com.algorithm.list.bo.ListNode;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by java_zong on 2019/5/16.
  */
-public class Solution {
-   static class ListNode {
-        int val;
-        ListNode next = null;
-
-        ListNode(int val) {
-            this.val = val;
-        }
-    }
+public class ReverseList {
 
     /**
      * 按链表值从尾到头的顺序返回一个ArrayList
@@ -28,7 +23,6 @@ public class Solution {
         ArrayList<Integer> arrayList = new ArrayList<>();
         printListFromTailToHeadExcurive(listNode, arrayList);
         return arrayList;
-
     }
 
     private void printListFromTailToHeadExcurive(ListNode listNode, ArrayList<Integer> arrayList) {
@@ -37,6 +31,38 @@ public class Solution {
         }
         printListFromTailToHeadExcurive(listNode.next, arrayList);
         arrayList.add(listNode.val);
+    }
+
+    /**
+     * 反转链表-递归
+     *
+     * @param node
+     * @return
+     */
+
+    private static ListNode reversionListByRecursion(ListNode node) {
+        if (node == null) {
+            return node;
+        }
+        List<ListNode> rootContainer = new ArrayList<>(1);
+        reversionListByRecursion(node, rootContainer);
+        return rootContainer.get(0);
+    }
+
+    /**
+     * /**
+     * 	 * 递归，在反转当前节点之前先反转后续节点
+     *          */
+    private static ListNode reversionListByRecursion(ListNode node, List<ListNode> rootContainer) {
+        if (node.next == null) {
+            rootContainer.add(node);
+            return node;
+        }
+
+        ListNode operateNode=reversionListByRecursion(node.next,rootContainer);
+        node.next.next = node;
+        node.next=null;
+        return operateNode;
     }
 
     /**
