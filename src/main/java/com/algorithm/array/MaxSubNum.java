@@ -85,10 +85,47 @@ public class MaxSubNum {
         return sub;
     }
 
+    /**
+     * 从一个从左到右递增、从上到下递增的二维数组中是否存在特定元素
+     * 时间复杂度 O(N)
+     * @param arrays 从左到右递增、从上到下递增的二维数组中
+     * @param targetNum 目标元素
+     * @return true=存在目标元素
+     */
+    public static boolean isExistSameNumInMatrix(int[][] arrays, int targetNum) {
+        if (arrays == null || arrays.length <= 0) {
+            return false;
+        }
+        // 列长度
+        int columnLength = arrays.length;
+        // 行长度
+        int rowsLength = arrays[0].length;
+        // 列的开始索引
+        int columnIndex = columnLength - 1;
+        // 行的开始索引
+        int rowsIndex = 0;
+        while (columnIndex >= 0 && rowsIndex <= rowsLength - 1) {
+            int midNum = arrays[columnIndex][rowsIndex];
+            if (midNum == targetNum) {
+                return true;
+            }
+            if (midNum > targetNum) {
+                columnIndex--;
+            } else {
+                rowsIndex++;
+            }
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         int[] srcArray = {-2, 11, -4, 13, -5, -21, 0};
         System.out.println(findMaxSubSum(srcArray));
         System.out.println(Arrays.toString(findMaxSub(srcArray)));
+
+        int[][] matrixArray = {{1, 2}, {3, 4}, {5, 6}};
+        System.out.println(isExistSameNumInMatrix(matrixArray, 4));
+        ;
     }
 
 }

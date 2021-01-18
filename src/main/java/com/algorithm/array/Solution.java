@@ -68,8 +68,9 @@ public class Solution {
      * 在一个二维数组中（每个一维数组的长度相同），
      * 每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。
      * 请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
-     *
+     * <p>
      * 一般涉及到这种有序数组的查找可以优先考虑二分查找
+     *
      * @param target
      * @param array
      * @return
@@ -96,5 +97,37 @@ public class Solution {
             }
         }
         return contains;
+    }
+
+    /**
+     * 将两个有序数组合并成一个有序数组
+     *
+     * @param targetArray 数组1 其内存足够大
+     * @param srcArray    数组2
+     */
+    public static void mergeArray(int[] targetArray, int[] srcArray) {
+        if (targetArray == null || srcArray == null) {
+            return;
+        }
+
+        int targetArrayIndex = 0;
+        int srcArrayIndex = 0;
+
+    }
+
+    public static void main(String[] args) {
+        int[] targetArray = new int[20];
+        System.out.println(targetArray.length);
+        int[] srcArray = new int[10];
+        int targetArrayIndex = 0;
+        int srcArrayIndex = 0;
+        for (int i = 0; i < 20; i++) {
+            if (i % 2 == 0) {
+                srcArray[srcArrayIndex++] = i;
+            } else {
+                targetArray[targetArrayIndex++] = i;
+            }
+        }
+        mergeArray(targetArray,srcArray);
     }
 }

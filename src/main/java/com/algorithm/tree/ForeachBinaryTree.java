@@ -34,6 +34,22 @@ public class ForeachBinaryTree {
         midRecursion(array);
 
         midForeachLoop(array);
+
+        lateRecursion(rootNode);
+    }
+
+    /**
+     * 后序遍历二叉树
+     *
+     * @param rootNode
+     */
+    private static void lateRecursion(TreeNode rootNode) {
+        if (rootNode.left == null) {
+            return;
+        }
+        lateRecursion(rootNode.left);
+        lateRecursion(rootNode.right);
+        System.out.println("lateRecursion:" + rootNode.val);
     }
 
     /**
@@ -219,7 +235,7 @@ public class ForeachBinaryTree {
      */
     public static void midForeachLoop(int[] array) {
         int maxIndex;
-        if (array == null || (maxIndex = array.length-1) < 0) {
+        if (array == null || (maxIndex = array.length - 1) < 0) {
             return;
         }
         Stack<Integer> stack = new Stack<>();

@@ -21,15 +21,15 @@ public class ReverseList {
             return new ArrayList<>();
         }
         ArrayList<Integer> arrayList = new ArrayList<>();
-        printListFromTailToHeadExcurive(listNode, arrayList);
+        printListFromTailToHeadRecursion(listNode, arrayList);
         return arrayList;
     }
 
-    private void printListFromTailToHeadExcurive(ListNode listNode, ArrayList<Integer> arrayList) {
+    private void printListFromTailToHeadRecursion(ListNode listNode, ArrayList<Integer> arrayList) {
         if (listNode == null) {
             return;
         }
-        printListFromTailToHeadExcurive(listNode.next, arrayList);
+        printListFromTailToHeadRecursion(listNode.next, arrayList);
         arrayList.add(listNode.val);
     }
 
@@ -50,9 +50,11 @@ public class ReverseList {
     }
 
     /**
-     * /**
-     * 	 * 递归，在反转当前节点之前先反转后续节点
-     *          */
+     * 递归，在反转当前节点之前先反转后续节点
+     * @param node
+     * @param rootContainer
+     * @return
+     */
     private static ListNode reversionListByRecursion(ListNode node, List<ListNode> rootContainer) {
         if (node.next == null) {
             rootContainer.add(node);
@@ -93,9 +95,10 @@ public class ReverseList {
         node.next=secNode;
         ListNode thirdNode=new ListNode(3);
         secNode.next=thirdNode;
-       ListNode targetNode= reversionList(node);
+//       ListNode targetNode= reversionList(node);
 
-        System.out.println("a");
+        ListNode targetNode1= reversionListByRecursion(node);
+        System.out.println("a="+targetNode1.val);
 
     }
 }
