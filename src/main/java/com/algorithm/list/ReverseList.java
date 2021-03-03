@@ -62,13 +62,16 @@ public class ReverseList {
         }
 
         ListNode operateNode=reversionListByRecursion(node.next,rootContainer);
+        // node为当前节点，此步骤是反转node的下一节点
         node.next.next = node;
+        // 反转node节点
         node.next=null;
         return operateNode;
     }
 
     /**
      * 反转链表
+     * 窗口滑动，但是要提前保留下次要活动的位置，tmpNode
      * @param listNode
      * @return
      */
@@ -95,7 +98,7 @@ public class ReverseList {
         node.next=secNode;
         ListNode thirdNode=new ListNode(3);
         secNode.next=thirdNode;
-//       ListNode targetNode= reversionList(node);
+       ListNode targetNode= reversionList(node);
 
         ListNode targetNode1= reversionListByRecursion(node);
         System.out.println("a="+targetNode1.val);
