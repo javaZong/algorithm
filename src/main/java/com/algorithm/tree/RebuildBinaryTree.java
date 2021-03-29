@@ -18,49 +18,54 @@ public class RebuildBinaryTree {
         if (pre == null || in == null || (pre.length != in.length)) {
             return null;
         }
-        return reConstructBinaryTree(pre, 0, pre.length - 1,
-                in, 0, in.length - 1);
+        return reConstructBinaryTreeByRecursive(pre, 0,
+                in, 0, in.length);
     }
+
+
 
     /**
      * 递归实现
      *
      * @param pre      前序遍历数组
      * @param preStart 前序遍历数组起始
-     * @param preEnd
      * @param in
      * @param inStart
-     * @param inEnd
+     * @param treeLength 当前树节点个数
      * @return
      */
-    public static TreeNode reConstructBinaryTree(int[] pre, int preStart, int preEnd,
-                                                 int[] in, int inStart, int inEnd) {
-        if (preStart>preEnd||inStart>inEnd) {
+    private static TreeNode reConstructBinaryTreeByRecursive(int[] pre,int preStart,
+                                                      int[] in,int inStart,
+                                                      int treeLength){
+        if(treeLength<1){
             return null;
         }
-        TreeNode node = new TreeNode(pre[preStart]);
-        if (preStart == preEnd && inStart == inEnd) {
-            return node;
-        }
+        TreeNode subRootNode=new TreeNode(pre[preStart]);
+        if(treeLength==1){
 
-        int leftTreeSize = 0, rightTreeSize = 0;
-        int i;
-        for (i = inStart; i < inEnd + 1; i++) {
-            if (in[i] == pre[preStart]) {
-                leftTreeSize = i - inStart;
-                rightTreeSize = inEnd - i;
+            return subRootNode;
+        }
+        int leftTreeLength=0;
+        int rightTreeLength=0;
+
+        int newInStart=inStart;
+        for(int i=0;i<treeLength;i++){
+            if(in[newInStart]==pre[preStart]){
+                leftTreeLength=newInStart-inStart;
+                rightTreeLength=treeLength-leftTreeLength-1;
                 break;
             }
+            newInStart++;
         }
 
-        node.left = reConstructBinaryTree(pre,preStart+1, preStart + leftTreeSize ,
-                in, inStart, inStart + leftTreeSize - 1);
+        int preLeftTreeStart=preStart+1;
 
-        node.right = reConstructBinaryTree(pre, preEnd - rightTreeSize + 1, preEnd,
-                in, inEnd - rightTreeSize + 1, inEnd);
+        subRootNode.left= reConstructBinaryTreeByRecursive(pre,preLeftTreeStart,
+                in,inStart,leftTreeLength);
 
-
-        return node;
+        subRootNode.right= reConstructBinaryTreeByRecursive(pre,preLeftTreeStart+leftTreeLength,
+                in,newInStart+1,rightTreeLength);
+        return subRootNode;
     }
 
     public static void main(String[] args) {
