@@ -9,23 +9,30 @@ import java.util.Stack;
  */
 public class Soltuion {
 
+    /**
+     * 用来push
+     */
     Stack<Integer> stack1 = new Stack<>();
+    /**
+     * 用来pop
+     */
     Stack<Integer> stack2 = new Stack<>();
 
+    /**
+     * stack1用来push
+     * 不用判断stack2中是否还有元素，因为stack2用来出，存放顺序一定是符合先进先出的
+     * @param node
+     */
     public void push(int node) {
-
-        while (!stack2.empty()) {
-            stack1.push(stack2.pop());
-        }
         stack1.push(node);
     }
 
     public int pop() throws Exception {
+        if (!stack2.empty()) {
+            return stack2.pop();
+        }
         while (!stack1.empty()) {
             stack2.push(stack1.pop());
-        }
-        if (stack2.empty()) {
-            throw new EmptyStackException();
         }
         return stack2.pop();
 

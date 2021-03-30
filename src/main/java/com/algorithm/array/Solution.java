@@ -12,30 +12,31 @@ public class Solution {
      * 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
      * NOTE：给出的所有元素都大于0，若数组大小为0，请返回0
      *
+     * 要考虑start和end相等的情况
      * @param array
      * @return
      */
     public int minNumberInRotateArrayDichotomy(int[] array) {
-        if (array == null || array.length == 0) {
+        if (array == null || array.length < 1) {
             return 0;
         }
-        int start = 0, end = array.length - 1;
-        int center;
-        while (start < end - 1) {
-            if (array[start] > array[end]) {
-                center = (start + end) / 2;
-                if (array[center] >= array[start]) {
-                    start = center;
-                } else if (array[center] <= array[end]) {
-                    end = center;
-                }
+        int start = 0;
+        int end = array.length - 1;
 
-            } else if (array[start] == array[end]) {
+        while (start < end - 1) {
+            if (array[start] == array[end]) {
                 start++;
                 end--;
-            } else {
-                return array[start];
+                continue;
             }
+
+            int mid = (end + start) >> 1;
+            if (array[mid] >= array[start]) {
+                start = mid;
+            } else if (array[mid] <= array[end]) {
+                end = mid;
+            }
+
         }
         return array[start] > array[end] ? array[end] : array[start];
     }
@@ -128,6 +129,6 @@ public class Solution {
                 targetArray[targetArrayIndex++] = i;
             }
         }
-        mergeArray(targetArray,srcArray);
+        mergeArray(targetArray, srcArray);
     }
 }
