@@ -1,11 +1,51 @@
 package com.algorithm.math;
 
 /**
+ * 斐波那契数列问题
  * Created by java_zong on 2019/5/18.
  */
-public class Solution {
+public class Fibonacci {
+    /**
+     * 递归实现
+     * 逻辑简单，但是会重复计算节点
+     * @param n
+     * @return
+     */
+    public static int fibonacciRecursive(int n) {
+        System.out.println(n);
+        if (n == 0) {
+            return 0;
+        }
+        if (n == 1) {
+            return 1;
+        }
+        return fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+    }
 
+    public static void main(String[] args) {
+        fibonacciRecursive(3);
+    }
 
+    /**
+     * 获取斐波那契数列第n项
+     * 类似双指针滑动
+     * @param n
+     * @return
+     */
+    public int fibonacciLoop(int n) {
+        if (n <= 1) {
+            return n;
+        }
+        int firstNum;
+        int secondNum = 1;
+        int targetNum = 1;
+        for (int i = 2; i < n; i++) {
+            firstNum = secondNum;
+            secondNum = targetNum;
+            targetNum = firstNum + secondNum;
+        }
+        return targetNum;
+    }
 
     /**
      * 一只青蛙一次可以跳上1级台阶，也可以跳上2级。
