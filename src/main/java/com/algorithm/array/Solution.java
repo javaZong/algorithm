@@ -100,6 +100,7 @@ public class Solution {
         return contains;
     }
 
+
     /**
      * 将两个有序数组合并成一个有序数组
      *
@@ -116,19 +117,78 @@ public class Solution {
 
     }
 
+    /**
+     * 寻找两个正序数组的中位数
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     */
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if(nums1==null&&nums2==null){
+            return 0.00;
+        }
+        if(nums1==null){
+            return findMedian(nums2);
+        }
+        if(nums2==null){
+            return findMedian(nums1);
+        }
+        int i=0;
+        int j=0;
+        int m=nums1.length;
+        int n=nums2.length;
+        int sum=m+n;
+        int[] array=new int[sum];
+
+        for(int k=0;k<sum;k++){
+
+            if(i==m&&j<n){
+                array[k]=nums2[j];
+                j++;
+                continue;
+            }
+            if(j==n&&i<m){
+                array[k]=nums1[i];
+                i++;
+                continue;
+            }
+            if(nums1[i]<=nums2[j]){
+                array[k]=nums1[i];
+                i++;
+            }else {
+                array[k]=nums2[j];
+                j++;
+            }
+        }
+        return findMedian(array);
+
+    }
+
+    private static double findMedian(int[] array){
+        int midIndex=(array.length-1)/2;
+        if (array.length%2!=0){
+
+            return array[midIndex];
+        }
+        int midNextIndex=midIndex+1;
+        return (array[midIndex]+array[midNextIndex])/2.00;
+    }
+
     public static void main(String[] args) {
-        int[] targetArray = new int[20];
+        int[] targetArray = new int[2];
         System.out.println(targetArray.length);
-        int[] srcArray = new int[10];
+        int[] srcArray = new int[2];
         int targetArrayIndex = 0;
         int srcArrayIndex = 0;
-        for (int i = 0; i < 20; i++) {
+        for (int i = 1; i < 5; i++) {
             if (i % 2 == 0) {
                 srcArray[srcArrayIndex++] = i;
             } else {
                 targetArray[targetArrayIndex++] = i;
             }
         }
-        mergeArray(targetArray, srcArray);
+        targetArray=new int[]{1,3};
+        srcArray=new int[]{2};
+        System.out.println( findMedianSortedArrays(targetArray, srcArray));
     }
 }

@@ -34,49 +34,66 @@ public class MaxSubNum {
     }
 
     /**
-     * 最大子序列
+     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     * 你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+     * 返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
      *
+     * 本质在于寻找差值最大的递增子序列
+     * 类似：最大子序列和 最大子序列
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices) {
+        if(prices==null||prices.length<1){
+            return 0;
+        }
+        int max=0;
+        int left=0;
+        int right=1;
+        int difference=0;
+        while(right<prices.length){
+            difference=prices[right]-prices[left];
+            if(difference<0){
+                left=right;
+                right++;
+                continue;
+            }
+            right++;
+            if(difference>max){
+                max=difference;
+            }
+        }
+        return max;
+    }
+
+    /**
+     * 最大子序列
+     * {-2, 11, -4, 13, -5, -21, 0}
      * @param srcArray
      * @return
      */
-    public static int[] findMaxSub(int[] srcArray) {
+    public static int[] findMaxSub1(int[] srcArray) {
         int maxIndex;
         if (srcArray == null || (maxIndex = srcArray.length - 1) < 0) {
             return null;
         }
         int maxSubSum = 0;
         int currentSubSum = 0;
-        int maxSubBeginIndex = -1;
-        int maxSubEndIndex = -1;
-        // 需要有个标识，来标记，是不是出现了新的较大大的子序列
-        boolean tmp = false;
-        for (int i = 0; i <= maxIndex; i++) {
-            currentSubSum += srcArray[i];
+        int left = 0;
+        int maxSubBeginIndex=0;
+        int maxSubEndIndex=0;
+        for (int right = 0; right <= maxIndex; right++) {
+            currentSubSum += srcArray[right];
             if (currentSubSum > maxSubSum) {
                 maxSubSum = currentSubSum;
-                if (tmp) {
-                    // 一个新的大的子序列
-                    maxSubBeginIndex = i;
-                    maxSubEndIndex = i;
-                } else {
-                    if (maxSubBeginIndex < 0) {
-                        maxSubBeginIndex = i;
-                    } else {
-                        maxSubEndIndex = i;
-                    }
-                }
-                tmp = false;
+                maxSubEndIndex=right;
+                maxSubBeginIndex=left;
             } else if (currentSubSum < 0) {
                 currentSubSum = 0;
-                tmp = true;
+                left=right+1;
             }
         }
-        if (maxSubBeginIndex < 0) {
-            return null;
-        }
-        if (maxSubBeginIndex > maxSubEndIndex) {
-            maxSubEndIndex = maxIndex;
-        }
+
         int subSize = maxSubEndIndex - maxSubBeginIndex + 1;
         int[] sub = new int[subSize];
         for (int i = 0; i < subSize; i++) {
@@ -84,7 +101,6 @@ public class MaxSubNum {
         }
         return sub;
     }
-
     /**
      * 从一个从左到右递增、从上到下递增的二维数组中是否存在特定元素
      * 时间复杂度 O(N)
@@ -119,9 +135,9 @@ public class MaxSubNum {
     }
 
     public static void main(String[] args) {
-        int[] srcArray = {-2, 11, -4, 13, -5, -21, 0};
+        int[] srcArray = {-2, 11, -4, 13, -5, 21, 0};
         System.out.println(findMaxSubSum(srcArray));
-        System.out.println(Arrays.toString(findMaxSub(srcArray)));
+        System.out.println(Arrays.toString(findMaxSub1(srcArray)));
 
         int[][] matrixArray = {{1, 2}, {3, 4}, {5, 6}};
         System.out.println(isExistSameNumInMatrix(matrixArray, 4));
