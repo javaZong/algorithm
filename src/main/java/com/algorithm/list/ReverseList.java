@@ -51,6 +51,7 @@ public class ReverseList {
 
     /**
      * 递归，在反转当前节点之前先反转后续节点
+     *
      * @param node
      * @param rootContainer
      * @return
@@ -61,17 +62,18 @@ public class ReverseList {
             return node;
         }
 
-        ListNode operateNode=reversionListByRecursion(node.next,rootContainer);
+        ListNode operateNode = reversionListByRecursion(node.next, rootContainer);
         // node为当前节点，此步骤是反转node的下一节点
         node.next.next = node;
         // 反转node节点
-        node.next=null;
+        node.next = null;
         return operateNode;
     }
 
     /**
      * 反转链表
      * 窗口滑动，但是要提前保留下次要活动的位置，tmpNode
+     *
      * @param listNode
      * @return
      */
@@ -92,16 +94,62 @@ public class ReverseList {
 
     }
 
-    public static void main(String[] args) {
-        ListNode node=new ListNode(1);
-        ListNode secNode=new ListNode(2);
-        node.next=secNode;
-        ListNode thirdNode=new ListNode(3);
-        secNode.next=thirdNode;
-       ListNode targetNode= reversionList(node);
+    /**
+     * 合并两个有序链表
+     *
+     * @param l1
+     * @param l2
+     * @return
+     */
+    public static ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        }
+        if (l2 == null) {
+            return l1;
+        }
+        ListNode newRootNode;
 
-        ListNode targetNode1= reversionListByRecursion(node);
-        System.out.println("a="+targetNode1.val);
+        ListNode currentNodeL1 = l1;
+        ListNode currentNodeL2 = l2;
+        if (l1.val < l2.val) {
+            newRootNode = l1;
+            currentNodeL1 = l1.next;
+        } else {
+            newRootNode = l2;
+            currentNodeL2 = l2.next;
+        }
+        ListNode newNode = newRootNode;
+
+        while (currentNodeL1 != null && currentNodeL2 != null) {
+            if (currentNodeL1.val > currentNodeL2.val) {
+                newNode.next = currentNodeL2;
+                currentNodeL2 = currentNodeL2.next;
+            } else {
+                newNode.next = currentNodeL1;
+                currentNodeL1 = currentNodeL1.next;
+            }
+            newNode = newNode.next;
+        }
+        newNode.next = currentNodeL1 == null ? currentNodeL2 : currentNodeL1;
+        return newRootNode;
+
+
+    }
+
+    public static void main(String[] args) {
+        ListNode node = new ListNode(1);
+        ListNode secNode = new ListNode(2);
+        node.next = secNode;
+        ListNode thirdNode = new ListNode(3);
+//        secNode.next = thirdNode;
+        ListNode newNode = mergeTwoLists(node, thirdNode);
+        System.out.println(newNode.val);
+
+//        ListNode targetNode = reversionList(node);
+//
+//        ListNode targetNode1 = reversionListByRecursion(node);
+//        System.out.println("a=" + targetNode1.val);
 
     }
 }
