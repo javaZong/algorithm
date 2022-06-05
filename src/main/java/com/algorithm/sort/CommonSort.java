@@ -2,7 +2,10 @@ package com.algorithm.sort;
 
 import com.algorithm.util.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * 八大排序算法
@@ -55,16 +58,14 @@ public class CommonSort {
             return;
         }
         System.out.println("selectionSort-init=" + Arrays.toString(array));
-
-
         for (int i = 0; i < array.length; i++) {
-            int minLength = i;
+            int minIndex = i;
             for (int j = i + 1; j < array.length; j++) {
-                if (array[j] < array[minLength]) {
-                    minLength = j;
+                if (array[j] < array[minIndex]) {
+                    minIndex = j;
                 }
             }
-            swap(array, i, minLength);
+            swap(array, i, minIndex);
             System.out.println(Arrays.toString(array));
         }
     }
@@ -84,7 +85,7 @@ public class CommonSort {
         }
         System.out.println("insertionSore-init=" + Arrays.toString(array));
         for (int i = 0; i < array.length - 1; i++) {
-            for (int j = i ; j > -1; j--) {
+            for (int j = i; j > -1; j--) {
                 if (array[j] > array[j + 1]) {
                     swap(array, j, j + 1);
                 }
@@ -93,6 +94,167 @@ public class CommonSort {
         }
     }
 
+    /**
+     * 选择一个增量序列 t1，t2，……，tk，其中 ti > tj, tk = 1；
+     * <p>
+     * 按增量序列个数 k，对序列进行 k 趟排序；
+     * <p>
+     * 每趟排序，根据对应的增量 ti，将待排序列分割成若干长度为 m 的子序列，分别对各子表进行直接插入排序。
+     * 仅增量因子为 1 时，整个序列作为一个表来处理，表长度即为整个序列的长度。
+     *
+     * @param arr
+     */
+    public static void shellSort(int[] arr) {
+        int length = arr.length;
+        int temp;
+        for (int step = length / 2; step >= 1; step /= 2) {
+            for (int i = step; i < length; i++) {
+                temp = arr[i];
+                int j = i - step;
+                while (j >= 0 && arr[j] > temp) {
+                    arr[j + step] = arr[j];
+                    j -= step;
+                }
+                arr[j + step] = temp;
+            }
+        }
+    }
+
+    /**
+     * 归并排序
+     * 申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
+     *
+     * 设定两个指针，最初位置分别为两个已经排序序列的起始位置；
+     *
+     * 比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置；
+     *
+     * 重复步骤 3 直到某一指针达到序列尾；
+     *
+     * 将另一序列剩下的所有元素直接复制到合并序列尾。
+     * @param array
+     * @param left
+     * @param right
+     */
+    public static void mergeSortRecursion(int[] array, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int mid = left + (right - left) / 2;
+        mergeSortRecursion(array, left, mid);
+        mergeSortRecursion(array, mid + 1, right);
+        mergeTwoSubArray(array, left, mid, mid + 1, right);
+    }
+
+
+    private static void mergeTwoSubArray(int[] array, int leftA, int rightA,
+                                         int leftB, int rightB) {
+        int tempArrayLength = (rightA - leftA) + 1 + (rightB - leftB) + 1;
+        if (tempArrayLength < 2) {
+            return;
+        }
+        int[] temp = new int[tempArrayLength];
+        boolean aArrayForeachNotFinish = false;
+        boolean bArrayForeachNotFinish = false;
+        int firstArrayIndex = leftA;
+        for (int i = 0; i < tempArrayLength; i++) {
+            aArrayForeachNotFinish = leftA <= rightA;
+            bArrayForeachNotFinish = leftB <= rightB;
+            if (aArrayForeachNotFinish && bArrayForeachNotFinish) {
+                if (array[leftA] < array[leftB]) {
+                    temp[i] = array[leftA];
+                    leftA++;
+                    continue;
+                }
+                temp[i] = array[leftB];
+                leftB++;
+                continue;
+            }
+            if (aArrayForeachNotFinish) {
+                temp[i] = array[leftA];
+                leftA++;
+                continue;
+            }
+            if (bArrayForeachNotFinish) {
+                temp[i] = array[leftB];
+                leftB++;
+            }
+        }
+        for (int i = 0; i < tempArrayLength; i++) {
+            array[firstArrayIndex] = temp[i];
+            firstArrayIndex++;
+        }
+    }
+
+    public static void quickSortByForeach(int[] array) {
+        if (array == null || array.length < 2) {
+            return;
+        }
+        Queue<SortItemObject> queue = new LinkedList<>();
+        SortItemObject item = new SortItemObject(0, array.length - 1);
+        queue.add(item);
+        while (!queue.isEmpty()) {
+            item = queue.remove();
+            int left = item.left;
+            int right = item.right;
+            int pointKey = execPartSort(array, left, right);
+            if (pointKey > left) {
+                queue.add(new SortItemObject(left, pointKey - 1));
+            }
+            if (pointKey < right) {
+                queue.add(new SortItemObject(pointKey + 1, right));
+            }
+
+        }
+
+    }
+
+    private static class SortItemObject {
+        int left;
+        int right;
+
+        SortItemObject(int left, int right) {
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    /**
+     * 快排递归
+     *
+     * @param array
+     * @param left
+     * @param right
+     */
+    public static void quickSortByRecursion(int[] array, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+
+        int pointIndex = execPartSort(array, left, right);
+        quickSortByRecursion(array, left, pointIndex - 1);
+        quickSortByRecursion(array, pointIndex + 1, right);
+    }
+
+    private static int execPartSort(int[] array, int left, int right) {
+        if (left >= right) {
+            return left;
+        }
+        int point = array[left];
+        int slowIndex = left + 1;
+        // 快慢指针
+        for (int fastIndex = slowIndex; fastIndex <= right; fastIndex++) {
+            // 慢指针的数字一定是大于基准数的（快指针已经走过了），当快指针的数字出现比基准数字小时
+            if (array[fastIndex] < point) {
+                swap(array, fastIndex, slowIndex);
+                slowIndex++;
+            }
+        }
+        int targetIndex = slowIndex - 1;
+        swap(array, left, targetIndex);
+        return targetIndex;
+    }
+
+
     public static void swap(int[] array, int left, int right) {
         int temp = array[left];
         array[left] = array[right];
@@ -100,7 +262,10 @@ public class CommonSort {
     }
 
     public static void main(String[] args) {
-        int[] array = ArrayUtils.buildRandomArray(5);
-        insertionSore(array);
+        int length = 10;
+        int[] array = ArrayUtils.buildRandomArray(length);
+        System.out.println(Arrays.toString(array));
+        quickSortByForeach(array);
+        System.out.println(Arrays.toString(array));
     }
 }
