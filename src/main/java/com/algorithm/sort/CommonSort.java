@@ -25,7 +25,6 @@ public class CommonSort {
         if (array == null || array.length < 2) {
             return;
         }
-        System.out.println("bubbleSort-init=" + Arrays.toString(array));
         for (int j = array.length - 1; j > 0; j--) {
             int i = 0;
             while (i < j) {
@@ -35,9 +34,7 @@ public class CommonSort {
                 }
                 i = right;
             }
-            System.out.println(Arrays.toString(array));
         }
-        System.out.println(Arrays.toString(array));
 
     }
 
