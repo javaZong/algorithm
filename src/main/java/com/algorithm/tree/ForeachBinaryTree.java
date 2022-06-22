@@ -1,5 +1,7 @@
 package com.algorithm.tree;
 
+import com.algorithm.util.ArrayUtils;
+
 import javax.swing.plaf.basic.BasicArrowButton;
 import java.util.*;
 
@@ -239,25 +241,25 @@ public class ForeachBinaryTree {
             return;
         }
         Stack<Integer> stack = new Stack<>();
-        Set<Integer> set = new HashSet<>();
         stack.push(0);
         Integer curIndex = 0;
+        boolean addNewNode = true;
         while (!stack.isEmpty()) {
             curIndex = stack.peek();
             int leftIndex = curIndex * 2 + 1;
-            if (!set.contains(leftIndex) && leftIndex <= maxIndex) {
+            if (leftIndex <= maxIndex && addNewNode) {
                 // 存在左子树节点，则压入栈
                 stack.push(leftIndex);
-                set.add(leftIndex);
                 continue;
             }
             // 不存在，则代表左子树已遍历完,开始遍历右子树节点
             curIndex = stack.pop();
+            addNewNode = false;
             System.out.println("midForeachLoop=" + array[curIndex]);
             int rightIndex = curIndex * 2 + 2;
-            if (!set.contains(rightIndex) && rightIndex <= maxIndex) {
+            if (rightIndex <= maxIndex) {
                 stack.push(rightIndex);
-                set.add(rightIndex);
+                addNewNode = true;
             }
         }
     }

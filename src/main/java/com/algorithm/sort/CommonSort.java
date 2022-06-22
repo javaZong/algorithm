@@ -123,14 +123,15 @@ public class CommonSort {
     /**
      * 归并排序
      * 申请空间，使其大小为两个已经排序序列之和，该空间用来存放合并后的序列；
-     *
+     * <p>
      * 设定两个指针，最初位置分别为两个已经排序序列的起始位置；
-     *
+     * <p>
      * 比较两个指针所指向的元素，选择相对小的元素放入到合并空间，并移动指针到下一位置；
-     *
+     * <p>
      * 重复步骤 3 直到某一指针达到序列尾；
-     *
+     * <p>
      * 将另一序列剩下的所有元素直接复制到合并序列尾。
+     *
      * @param array
      * @param left
      * @param right
@@ -254,6 +255,56 @@ public class CommonSort {
         return targetIndex;
     }
 
+    /**
+     * 堆排序
+     * @param array
+     */
+    public static void heapSort(int[] array) {
+        if (array == null || array.length < 2) {
+            return;
+        }
+        buildMaxHeap(array);
+        for (int i = array.length - 1; i > 0; i--) {
+            swap(array, 0, i);
+            heapify(array, 0, i);
+        }
+    }
+
+    /**
+     * 构建最大堆
+     * @param array
+     */
+    private static void buildMaxHeap(int[] array) {
+        int i = (int) Math.floor(array.length / 2);
+        while (i >= 0) {
+            heapify(array, i, array.length);
+            i--;
+        }
+    }
+
+    /**
+     * 构建最子堆
+     * @param array
+     * @param i
+     * @param arraySize
+     */
+    private static void heapify(int[] array, int i, int arraySize) {
+
+        int leftIndex = i * 2 + 1;
+        int maxIndex = i;
+        if (leftIndex < arraySize && array[leftIndex] > array[i]) {
+            maxIndex = leftIndex;
+        }
+        int rightIndex = i * 2 + 2;
+        if (rightIndex < arraySize && array[rightIndex] > array[maxIndex]) {
+            maxIndex = rightIndex;
+        }
+        if (maxIndex != i) {
+            swap(array, maxIndex, i);
+            heapify(array, maxIndex, arraySize);
+        }
+    }
+
 
     public static void swap(int[] array, int left, int right) {
         int temp = array[left];
@@ -265,7 +316,7 @@ public class CommonSort {
         int length = 10;
         int[] array = ArrayUtils.buildRandomArray(length);
         System.out.println(Arrays.toString(array));
-        quickSortByForeach(array);
+        heapSort(array);
         System.out.println(Arrays.toString(array));
     }
 }
