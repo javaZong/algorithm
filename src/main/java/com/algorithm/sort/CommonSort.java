@@ -2,10 +2,7 @@ package com.algorithm.sort;
 
 import com.algorithm.util.ArrayUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 八大排序算法
@@ -28,7 +25,6 @@ public class CommonSort {
         if (array == null || array.length < 2) {
             return;
         }
-        System.out.println("bubbleSort-init=" + Arrays.toString(array));
         for (int j = array.length - 1; j > 0; j--) {
             int i = 0;
             while (i < j) {
@@ -38,9 +34,7 @@ public class CommonSort {
                 }
                 i = right;
             }
-            System.out.println(Arrays.toString(array));
         }
-        System.out.println(Arrays.toString(array));
 
     }
 
@@ -244,7 +238,7 @@ public class CommonSort {
         int slowIndex = left + 1;
         // 快慢指针
         for (int fastIndex = slowIndex; fastIndex <= right; fastIndex++) {
-            // 慢指针的数字一定是大于基准数的（快指针已经走过了），当快指针的数字出现比基准数字小时
+            // 慢指针所在的数字一定是大于基准数的（快指针已经走过了），当快指针的数字出现比基准数字小时
             if (array[fastIndex] < point) {
                 swap(array, fastIndex, slowIndex);
                 slowIndex++;
