@@ -1,5 +1,8 @@
 package com.algorithm.tree;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by java_zong on 2019/5/17.
  */
@@ -35,7 +38,7 @@ public class Solution {
      */
     public static TreeNode reConstructBinaryTree(int[] pre, int preStart, int preEnd,
                                                  int[] in, int inStart, int inEnd) {
-        if (preStart>preEnd||inStart>inEnd) {
+        if (preStart > preEnd || inStart > inEnd) {
             return null;
         }
         TreeNode node = new TreeNode(pre[preStart]);
@@ -53,7 +56,7 @@ public class Solution {
             }
         }
 
-        node.left = reConstructBinaryTree(pre,preStart+1, preStart + leftTreeSize ,
+        node.left = reConstructBinaryTree(pre, preStart + 1, preStart + leftTreeSize,
                 in, inStart, inStart + leftTreeSize - 1);
 
         node.right = reConstructBinaryTree(pre, preEnd - rightTreeSize + 1, preEnd,
@@ -71,34 +74,107 @@ public class Solution {
 //    }
 
     public static void main(String[] args) {
-        int[] minArray=new int[1];
+        int[] minArray = new int[1];
         System.out.println(minArray.length);
-        TreeNode root=new TreeNode(0);
+        TreeNode root = new TreeNode(0);
         System.out.println(run(root));
     }
 
     public static int run(TreeNode root) {
-        if(root==null){
+        if (root == null) {
             return 0;
         }
-        int[] minArray=new int[1];
+        int[] minArray = new int[1];
 
-        pre(root,minArray,0);
+        pre(root, minArray, 0);
         return minArray[0];
     }
 
-    private static void pre(TreeNode node,int[] array,int reExcursiveTimes){
-        if(node==null){
-            if(array.length==0){
-                array[0]=reExcursiveTimes;
-            }else if(array[0]>reExcursiveTimes){
-                array[0]=reExcursiveTimes;
+    private static void pre(TreeNode node, int[] array, int reExcursiveTimes) {
+        if (node == null) {
+            if (array.length == 0) {
+                array[0] = reExcursiveTimes;
+            } else if (array[0] > reExcursiveTimes) {
+                array[0] = reExcursiveTimes;
             }
             return;
         }
         reExcursiveTimes++;
 
-        pre(node.left,array,reExcursiveTimes);
-        pre(node.right,array,reExcursiveTimes);
+        pre(node.left, array, reExcursiveTimes);
+        pre(node.right, array, reExcursiveTimes);
     }
+
+    /**
+     * 是否为对称二叉树
+     *
+     * @param root
+     * @return
+     */
+    public static boolean isSymmetricByExcursion(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isSymmetricByExcursion(root.left, root.right);
+    }
+
+    private static boolean isSymmetricByExcursion(TreeNode left, TreeNode right) {
+
+        if (left == null && right != null) {
+            return false;
+        }
+        if (left != null && right == null) {
+            return false;
+        }
+        if (left == null) {
+            return true;
+        }
+        if (left.val != right.val) {
+            return false;
+        }
+        boolean isSymmetric = isSymmetricByExcursion(left.left, right.right);
+        if (!isSymmetric) {
+            return isSymmetric;
+        }
+        isSymmetric = isSymmetricByExcursion(left.right, right.left);
+        return isSymmetric;
+    }
+
+    /**
+     * 循环遍历是否为对称树
+     *
+     * @param root
+     * @return
+     */
+    public static boolean isSymmetricByForeach(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        Queue<TreeNode> queue = new LinkedList();
+        queue.offer(root.left);
+        queue.offer(root.right);
+        while (!queue.isEmpty()) {
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+            if (left == null && right != null) {
+                return false;
+            }
+            if (left != null && right == null) {
+                return false;
+            }
+            if (left == null && right == null) {
+                continue;
+            }
+            if (left.val != right.val) {
+                return false;
+            }
+            queue.offer(left.left);
+            queue.offer(right.right);
+
+            queue.offer(left.right);
+            queue.offer(right.left);
+        }
+        return true;
+    }
+
 }
