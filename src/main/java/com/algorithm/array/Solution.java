@@ -1,5 +1,11 @@
 package com.algorithm.array;
 
+import com.alibaba.fastjson.JSON;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by java_zong on 2019/5/18.
  */
@@ -11,8 +17,9 @@ public class Solution {
      * 输入一个非减排序的数组的一个旋转，输出旋转数组的最小元素。
      * 例如数组{3,4,5,1,2}为{1,2,3,4,5}的一个旋转，该数组的最小值为1。
      * NOTE：给出的所有元素都大于0，若数组大小为0，请返回0
-     *
+     * <p>
      * 要考虑start和end相等的情况
+     *
      * @param array
      * @return
      */
@@ -124,39 +131,39 @@ public class Solution {
      * @param nums2 数组2
      */
     public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if(nums1==null&&nums2==null){
+        if (nums1 == null && nums2 == null) {
             return 0.00;
         }
-        if(nums1==null){
+        if (nums1 == null) {
             return findMedian(nums2);
         }
-        if(nums2==null){
+        if (nums2 == null) {
             return findMedian(nums1);
         }
-        int i=0;
-        int j=0;
-        int m=nums1.length;
-        int n=nums2.length;
-        int sum=m+n;
-        int[] array=new int[sum];
+        int i = 0;
+        int j = 0;
+        int m = nums1.length;
+        int n = nums2.length;
+        int sum = m + n;
+        int[] array = new int[sum];
 
-        for(int k=0;k<sum;k++){
+        for (int k = 0; k < sum; k++) {
 
-            if(i==m&&j<n){
-                array[k]=nums2[j];
+            if (i == m && j < n) {
+                array[k] = nums2[j];
                 j++;
                 continue;
             }
-            if(j==n&&i<m){
-                array[k]=nums1[i];
+            if (j == n && i < m) {
+                array[k] = nums1[i];
                 i++;
                 continue;
             }
-            if(nums1[i]<=nums2[j]){
-                array[k]=nums1[i];
+            if (nums1[i] <= nums2[j]) {
+                array[k] = nums1[i];
                 i++;
-            }else {
-                array[k]=nums2[j];
+            } else {
+                array[k] = nums2[j];
                 j++;
             }
         }
@@ -164,31 +171,88 @@ public class Solution {
 
     }
 
-    private static double findMedian(int[] array){
-        int midIndex=(array.length-1)/2;
-        if (array.length%2!=0){
+    private static double findMedian(int[] array) {
+        int midIndex = (array.length - 1) / 2;
+        if (array.length % 2 != 0) {
 
             return array[midIndex];
         }
-        int midNextIndex=midIndex+1;
-        return (array[midIndex]+array[midNextIndex])/2.00;
+        int midNextIndex = midIndex + 1;
+        return (array[midIndex] + array[midNextIndex]) / 2.00;
     }
 
     public static void main(String[] args) {
-        int[] targetArray = new int[2];
-        System.out.println(targetArray.length);
-        int[] srcArray = new int[2];
-        int targetArrayIndex = 0;
-        int srcArrayIndex = 0;
-        for (int i = 1; i < 5; i++) {
-            if (i % 2 == 0) {
-                srcArray[srcArrayIndex++] = i;
-            } else {
-                targetArray[targetArrayIndex++] = i;
-            }
-        }
-        targetArray=new int[]{1,3};
-        srcArray=new int[]{2};
-        System.out.println( findMedianSortedArrays(targetArray, srcArray));
+//        int[] targetArray = new int[2];
+//        System.out.println(targetArray.length);
+//        int[] srcArray = new int[2];
+//        int targetArrayIndex = 0;
+//        int srcArrayIndex = 0;
+//        for (int i = 1; i < 5; i++) {
+//            if (i % 2 == 0) {
+//                srcArray[srcArrayIndex++] = i;
+//            } else {
+//                targetArray[targetArrayIndex++] = i;
+//            }
+//        }
+//        targetArray=new int[]{1,3};
+//        srcArray=new int[]{2};
+//        System.out.println( findMedianSortedArrays(targetArray, srcArray));
+        int[] nums = {1000000000,1000000000,1000000000,1000000000};
+        List list = fourSum(nums, -294967296);
+        System.out.println(Integer.MAX_VALUE+1);
+        System.out.println(JSON.toJSONString(list));
     }
+
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> arrayList = new ArrayList();
+        if (nums == null || nums.length < 4) {
+            return arrayList;
+        }
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+            for (int j = i + 1; j < nums.length; j++) {
+                if (j > i + 1 && nums[j] == nums[j - 1]) {
+                    continue;
+                }
+                long firstSum = nums[i] + nums[j];
+                System.out.println(firstSum);
+
+                int left = j + 1;
+                int right = nums.length - 1;
+                while (left < right) {
+                    if (left > j + 1 && nums[left] == nums[left - 1]) {
+                        left++;
+                        continue;
+                    }
+                    if (right < nums.length - 1 && nums[right] == nums[right + 1]) {
+                        right--;
+                        continue;
+                    }
+                    long sum = firstSum + nums[left] + nums[right];
+                    if (sum == target) {
+                        List<Integer> list = new ArrayList(4);
+                        list.add(nums[i]);
+                        list.add(nums[j]);
+                        list.add(nums[left]);
+                        list.add(nums[right]);
+                        arrayList.add(list);
+                        left++;
+                        right--;
+                        continue;
+                    }
+                    if (sum < target) {
+                        left++;
+                        continue;
+                    }
+                    right--;
+                }
+            }
+
+        }
+        return arrayList;
+    }
+
 }
