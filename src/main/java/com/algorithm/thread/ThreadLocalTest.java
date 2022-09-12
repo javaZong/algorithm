@@ -9,5 +9,6 @@ public class ThreadLocalTest {
         threadLocal.set("bbbbb");
 
         System.out.println(threadLocal.get());
+        System.out.println(Integer.MAX_VALUE);
     }
 }
