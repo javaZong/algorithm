@@ -71,6 +71,11 @@ public class Solution {
         return maxLength;
     }
 
+    /**
+     * 最长回文字符串-中心扩散法
+     * @param s
+     * @return
+     */
     public static String longestPalindrome(String s) {
 
         char[] chars = s.toCharArray();
