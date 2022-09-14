@@ -1,49 +1,78 @@
 package com.algorithm.juc;
 
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class ReentrantLockStudy {
 
-    static ReentrantLock lock = new ReentrantLock();
+    // 实例化一个ReentrantLock对象
+    private ReentrantLock lock = new ReentrantLock();
+    // 为线程A注册一个Condition
+    public Condition conditionA = lock.newCondition();
+    // 为线程B注册一个Condition
+    public Condition conditionB = lock.newCondition();
 
-    public static void main(String[] args) {
-        test();
-    }
-
-    private static void test() {
-        for (int i = 0; i < 3; i++) {
-            Thread thread = new Thread(new ThreadTest());
-            thread.start();
-
-            thread.setName("test" + i);
-            try {
-                Thread.sleep(1000 * 1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    static class ThreadTest implements Runnable {
-
-        @Override
-        public void run() {
-            lockTest();
-        }
-    }
-
-    public static void lockTest() {
+    public void awaitA() {
+        lock.lock();
         try {
-            lock.tryLock();
-            System.out.println(Thread.currentThread().getName());
-            Thread.sleep(1000 * 10);
 
-        } catch (Exception e) {
+            System.out.println(Thread.currentThread().getName() + "进入了awaitA方法");
+            long timeBefore = System.currentTimeMillis();
+            // 执行conditionA等待
+            conditionA.await();
+            long timeAfter = System.currentTimeMillis();
+            System.out.println(Thread.currentThread().getName() + "被唤醒");
+            System.out.println(Thread.currentThread().getName() + "等待了: " + (timeAfter - timeBefore) / 1000 + "s");
+        } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             lock.unlock();
+            System.out.println("awaita");
         }
+    }
 
+    public void awaitB() {
+        lock.lock();
+        try {
+
+            System.out.println(Thread.currentThread().getName() + "进入了awaitB方法");
+            long timeBefore = System.currentTimeMillis();
+            // 执行conditionB等待
+            conditionB.await();
+            long timeAfter = System.currentTimeMillis();
+            System.out.println(Thread.currentThread().getName() + "被唤醒");
+            System.out.println(Thread.currentThread().getName() + "等待了: " + (timeAfter - timeBefore) / 1000 + "s");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+            System.out.println("awaitb");
+        }
+    }
+
+    public void signalA() {
+        lock.lock();
+        try {
+
+            System.out.println("启动唤醒程序a");
+            // 唤醒所有注册conditionA的线程
+            conditionA.signalAll();
+        } finally {
+            lock.unlock();
+            System.out.println("signalA释放锁a");
+        }
+    }
+
+    public void signalB() {
+        lock.lock();
+        try {
+            System.out.println("启动唤醒程序b");
+            // 唤醒所有注册conditionB的线程
+            conditionB.signalAll();
+        } finally {
+            lock.unlock();
+            System.out.println("signalB释放锁b");
+        }
     }
 
 }
