@@ -73,6 +73,7 @@ public class Solution {
 
     /**
      * 最长回文字符串-中心扩散法
+     *
      * @param s
      * @return
      */
@@ -94,7 +95,6 @@ public class Solution {
             }
 
         }
-        System.out.println(maxLengthIndex + "," + max);
         return s.substring(maxLengthIndex, maxLengthIndex + max);
     }
 
@@ -109,7 +109,6 @@ public class Solution {
             rightCenter++;
         }
         int length = r - l + 1;
-        System.out.println(length);
         int[] nums = new int[2];
         nums[0] = length;
         nums[1] = l;
@@ -117,7 +116,54 @@ public class Solution {
 
     }
 
+    /**
+     * 最大回文子字符串-动态规划
+     * leetcode运行时间比中心扩散法长很多
+     * @param str
+     * @return
+     */
+    public static String longestPalindromeByDp(String str) {
+        if (str == null || str.length() < 2) {
+            return str;
+        }
+        char[] chars = str.toCharArray();
+        boolean[][] palindromeMarks = new boolean[chars.length][chars.length];
+
+        for (int i = 0; i < chars.length; i++) {
+            palindromeMarks[i][i] = true;
+        }
+        int maxLength = 1;
+        int beginIndex = 0;
+        for (int l = 2; l <= chars.length; l++) {
+            for (int i = 0; i < chars.length; i++) {
+                int j = l + i - 1;
+                if (j > chars.length - 1) {
+                    break;
+                }
+                if (chars[j] == chars[i]) {
+                    if (j - i < 3) {
+                        palindromeMarks[i][j] = true;
+                    } else {
+                        palindromeMarks[i][j] = palindromeMarks[i + 1][j - 1];
+                    }
+                } else {
+                    palindromeMarks[i][j] = false;
+                }
+                if (palindromeMarks[i][j]) {
+                    int length = j - i + 1;
+                    System.out.println(length);
+                    if (length > maxLength) {
+                        maxLength = length;
+                        beginIndex = i;
+                    }
+                }
+            }
+        }
+        System.out.println(beginIndex+","+maxLength);
+        return str.substring(beginIndex, beginIndex + maxLength);
+    }
+
     public static void main(String[] args) {
-        System.out.println(longestPalindrome("bacacaba"));
+        System.out.println(longestPalindromeByDp("bb"));
     }
 }
