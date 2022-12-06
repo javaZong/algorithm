@@ -1,9 +1,6 @@
 package com.algorithm.str;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by java_zong on 2019/5/16.
@@ -119,6 +116,7 @@ public class Solution {
     /**
      * 最大回文子字符串-动态规划
      * leetcode运行时间比中心扩散法长很多
+     *
      * @param str
      * @return
      */
@@ -159,11 +157,47 @@ public class Solution {
                 }
             }
         }
-        System.out.println(beginIndex+","+maxLength);
+        System.out.println(beginIndex + "," + maxLength);
         return str.substring(beginIndex, beginIndex + maxLength);
     }
 
+    /**
+     * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     * f(n)=(+f(j)+)+f(n-j-1)
+     *
+     * @param n
+     * @return
+     */
+    public static List<String> generateParenthesis(int n) {
+        if (n < 1) {
+            return null;
+        }
+        List<List<String>> totalList = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        list.add("");
+        totalList.add(list);
+        list = new ArrayList<>();
+        list.add("()");
+        totalList.add(list);
+        for (int i = 2; i < n + 1; i++) {
+            list = new ArrayList<>();
+            for (int j = 0; j < i; j++) {
+                List<String> list_j = totalList.get(j);
+                List<String> list_n_j = totalList.get(i - j - 1);
+                for (String strA : list_j) {
+                    for (String strB : list_n_j) {
+                        String s = "(" + strA + ")" + strB;
+                        list.add(s);
+                    }
+                }
+            }
+            totalList.add(list);
+        }
+        return totalList.get(totalList.size() - 1);
+    }
+
+
     public static void main(String[] args) {
-        System.out.println(longestPalindromeByDp("bb"));
+        System.out.println(generateParenthesis(3));
     }
 }
