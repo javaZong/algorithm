@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by java_zong on 2019/5/18.
@@ -182,25 +183,10 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-//        int[] targetArray = new int[2];
-//        System.out.println(targetArray.length);
-//        int[] srcArray = new int[2];
-//        int targetArrayIndex = 0;
-//        int srcArrayIndex = 0;
-//        for (int i = 1; i < 5; i++) {
-//            if (i % 2 == 0) {
-//                srcArray[srcArrayIndex++] = i;
-//            } else {
-//                targetArray[targetArrayIndex++] = i;
-//            }
-//        }
-//        targetArray=new int[]{1,3};
-//        srcArray=new int[]{2};
-//        System.out.println( findMedianSortedArrays(targetArray, srcArray));
-        int[] nums = {1000000000,1000000000,1000000000,1000000000};
-        List list = fourSum(nums, -294967296);
-        System.out.println(Integer.MAX_VALUE+1);
-        System.out.println(JSON.toJSONString(list));
+        int[] nums={2,3,7};
+        int target=7;
+        List<List<Integer>> list=combinationSum(nums,target);
+        System.out.println(list);
     }
 
     public static List<List<Integer>> fourSum(int[] nums, int target) {
@@ -253,6 +239,45 @@ public class Solution {
 
         }
         return arrayList;
+    }
+
+
+    public static List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> totalList=new ArrayList();
+        Arrays.sort(candidates);
+        for(int i=0;i<candidates.length;i++){
+            List<Integer> list=new ArrayList();
+            isContinue=false;
+            combination(candidates,target,list,i,totalList);
+        }
+        return totalList;
+    }
+
+    static  boolean isContinue=false;
+    public static void combination(int[] candidates,int target,List<Integer> list,int startIndex,List<List<Integer>>totalList){
+        for(int i=startIndex;i<candidates.length;i++){
+            if (isContinue){
+                isContinue=false;
+                continue;
+            }
+            int item=candidates[i];
+            int s=target-item;
+            if(s==0){
+                List<Integer> itemList = new ArrayList(list);
+                itemList.add(item);
+                totalList.add(itemList);
+                System.out.println(itemList);
+                isContinue=true;
+                return;
+            }
+            if(s<0){
+                list.remove(list.size()-1);
+                isContinue=true;
+                return;
+            }
+            list.add(item);
+            combination(candidates,s,list,i,totalList);
+        }
     }
 
 }

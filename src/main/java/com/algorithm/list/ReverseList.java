@@ -3,6 +3,7 @@ package com.algorithm.list;
 import com.algorithm.list.bo.ListNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -137,7 +138,9 @@ public class ReverseList {
 
     }
 
+
     public static void main(String[] args) {
+        System.out.println(2000000000%3);
         ListNode node = new ListNode(1);
         ListNode secNode = new ListNode(2);
         node.next = secNode;
@@ -145,7 +148,6 @@ public class ReverseList {
 //        secNode.next = thirdNode;
         ListNode newNode = mergeTwoLists(node, thirdNode);
         System.out.println(newNode.val);
-
 //        ListNode targetNode = reversionList(node);
 //
 //        ListNode targetNode1 = reversionListByRecursion(node);
