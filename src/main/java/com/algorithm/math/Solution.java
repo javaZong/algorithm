@@ -1,5 +1,8 @@
 package com.algorithm.math;
 
+import com.algorithm.util.ArrayUtils;
+import com.alibaba.fastjson.JSON;
+
 /**
  * Created by java_zong on 2019/5/18.
  */
@@ -79,6 +82,8 @@ public class Solution {
 //        }
         return isPlus ? res : 1 / res;
     }
+
+
 
 }
 

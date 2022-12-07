@@ -1,5 +1,6 @@
 package com.algorithm.array;
 
+import com.algorithm.util.ArrayUtils;
 import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
@@ -239,6 +240,45 @@ public class Solution {
 
         }
         return arrayList;
+    }
+
+    /**
+     * 给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。
+     * <p>
+     * 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+     * <p>
+     * 返回容器可以储存的最大水量。
+     * <p>
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/container-with-most-water
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * <p>
+     * 题解：左右指针，比较大小 谁小谁往下走
+     * 容纳的水量是由
+     * 两个指针指向的数字中较小值 * 指针之间的距离
+     *
+     * @param height
+     * @return
+     */
+    public static int maxArea(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+        int max = 0;
+        int area = 0;
+        while (left < right) {
+            int length = right - left;
+            if (height[left] <= height[right]) {
+                area = height[left] * length;
+                left++;
+            } else {
+                area = height[right] * length;
+                right--;
+            }
+            if (area > max) {
+                max = area;
+            }
+        }
+        return max;
     }
 
 
