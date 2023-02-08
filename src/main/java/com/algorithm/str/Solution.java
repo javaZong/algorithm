@@ -52,8 +52,9 @@ public class Solution {
         int slow = 0;
         int fast = 0;
         int maxLength = 0;
-        while (fast < s.length()) {
-            Integer index = map.get(chars[fast]);
+        while (fast < chars.length) {
+            char c=chars[fast];
+            Integer index = map.get(c);
             if (index != null && index >= slow) {
                 slow = index + 1;
             } else {
@@ -62,7 +63,7 @@ public class Solution {
                     maxLength = length;
                 }
             }
-            map.put(chars[fast], fast);
+            map.put(c, fast);
             fast++;
         }
         return maxLength;
