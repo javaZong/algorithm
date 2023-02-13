@@ -1,11 +1,21 @@
 package com.algorithm;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class TestMain {
 
     public static void main(String[] args) {
-        int[] nums = {-3, -2, 0, -1};
-        System.out.println(maxSubArray(nums));
-        String a = "aa";
+//        int[] nums = {-3, -2, 0, -1};
+//        System.out.println(maxSubArray(nums));
+//        String a = "aa";
+
+        try {
+            InetAddress address = InetAddress.getLocalHost();
+            System.out.println(address.getHostAddress());
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
     public static int maxSubArray(int[] nums) {
