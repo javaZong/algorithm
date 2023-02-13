@@ -1,0 +1,39 @@
+滑动窗口模版
+
+// 左指针（收缩指针）
+int left;
+// 右指针（扩展指针）
+int right;
+// 匹配解
+result
+// 最优解
+bestResult;
+
+最长或最大
+while(right<str.length){
+    窗口扩大，加入right元素
+    更新result
+    while(result不满足要求){
+    窗口缩小，移除left元素，left++
+    }
+
+    更新bestResult;
+    right++;
+}
+return bestResult;
+
+最短或最小
+while(right<str.length){
+    窗口扩大，加入right元素
+    更新result
+    while(result满足要求){
+       更新bestResult;
+      窗口缩小，移除left元素，left++
+      更新result；
+    }
+    right++;
+}
+return bestResult;
+
+
+76  https://leetcode.cn/problems/minimum-window-substring/description/   代码位置 minWindow()
