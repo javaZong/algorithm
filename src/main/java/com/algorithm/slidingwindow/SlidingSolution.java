@@ -74,7 +74,7 @@ public class SlidingSolution {
                 }
                 Integer j = mapOfS.get(charsOfS[left]);
                 if (j != null) {
-                    mapOfS.put(charsOfS[left], j-1);
+                    mapOfS.put(charsOfS[left], j - 1);
                 }
                 left++;
             }
@@ -99,6 +99,6 @@ public class SlidingSolution {
 
     public static void main(String[] args) {
         SlidingSolution slidingSolution = new SlidingSolution();
-        System.out.println(slidingSolution.minWindow("ADOBECODEBANC", "ABC"));
+
     }
 }
