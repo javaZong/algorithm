@@ -191,7 +191,7 @@ public class CommonSort {
             item = queue.remove();
             int left = item.left;
             int right = item.right;
-            int pointKey = execPartSort(array, left, right);
+            int pointKey = execPartSort1(array, left, right);
             if (pointKey > left) {
                 queue.add(new SortItemObject(left, pointKey - 1));
             }
@@ -249,8 +249,38 @@ public class CommonSort {
         return targetIndex;
     }
 
+
+    private static int execPartSort1(int[] array, int left, int right) {
+        if (left >= right) {
+            return left;
+        }
+        int point = array[left];
+        int l = left;
+        while (l < right) {
+            while (l < right && array[right] >= point) {
+                right--;
+            }
+            if(l<right){
+                array[l]=array[right];
+                l++;
+            }
+            while (right > l && array[l] <= point) {
+                l++;
+            }
+            if(l<right){
+                array[right]=array[l];
+                right--;
+            }
+        }
+//        swap(array, left, l);
+        array[l]=point;
+        System.out.println(l+":"+array[l]);
+        return l;
+    }
+
     /**
      * 堆排序
+     *
      * @param array
      */
     public static void heapSort(int[] array) {
@@ -266,6 +296,7 @@ public class CommonSort {
 
     /**
      * 构建最大堆
+     *
      * @param array
      */
     private static void buildMaxHeap(int[] array) {
@@ -278,6 +309,7 @@ public class CommonSort {
 
     /**
      * 构建最子堆
+     *
      * @param array
      * @param i
      * @param arraySize
@@ -310,7 +342,7 @@ public class CommonSort {
         int length = 10;
         int[] array = ArrayUtils.buildRandomArray(length);
         System.out.println(Arrays.toString(array));
-        heapSort(array);
+        quickSortByForeach(array);
         System.out.println(Arrays.toString(array));
     }
 }

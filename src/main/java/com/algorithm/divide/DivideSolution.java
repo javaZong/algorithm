@@ -1,5 +1,8 @@
 package com.algorithm.divide;
 
+import com.algorithm.util.ArrayUtils;
+import com.alibaba.fastjson.JSON;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +12,48 @@ import java.util.Map;
  * @author zongchao
  */
 public class DivideSolution {
+
+    /**
+     * 递归排序
+     *
+     * @param nums
+     */
+    public void mergeSort(int[] nums) {
+        if (nums == null || nums.length < 2) {
+            return;
+        }
+        mergeSort(nums, 0, nums.length);
+    }
+
+    private void mergeSort(int[] nums, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int mid = left + (right - left) >> 1;
+        mergeSort(nums, left, mid);
+        mergeSort(nums, mid + 1, right);
+        merge(nums, left, mid, right);
+    }
+
+    private void merge(int[] nums, int left, int mid, int right) {
+        int[] help = new int[right - left + 1];
+        int p1 = left;
+        int p2 = mid + 1;
+        int i = 0;
+        while (p1 <= mid && p2 <= right) {
+            help[i++] = nums[p1] <= nums[p2] ? nums[p1++] : nums[p2++];
+        }
+        while (p1 <= mid) {
+            help[i++] = nums[p1++];
+        }
+        while (p2 <= right) {
+            help[i++] = nums[p2++];
+        }
+        for (i = 0; i < help.length; i++) {
+            nums[left + i] = help[i];
+        }
+    }
+
     /**
      * 给你一个字符串 s 和一个整数 k ，请你找出 s 中的最长子串， 要求该子串中的每一字符出现次数都不少于 k 。返回这一子串的长度。
      * <p>
@@ -52,7 +97,7 @@ public class DivideSolution {
         }
         for (int i = left; i <= right; i++) {
             Integer size = map.get(chars[i]);
-            // 当前字符所在位置不满足k的要求，，则目标子串一定在左侧，或者右侧
+            // 当前字符所在位置出现的次数不满足k的要求，，则目标子串一定在左侧，或者右侧
             if (size < k) {
                 int res = 0;
                 res = Math.max(res, longestSubstring(chars, left, i - 1, k));
@@ -68,5 +113,8 @@ public class DivideSolution {
         DivideSolution divideSolution = new DivideSolution();
         String s = "aaacbb";
         System.out.println(divideSolution.longestSubstring(s, 4));
+        int[] nums = ArrayUtils.buildRandomArray(10);
+        divideSolution.mergeSort(nums);
+        System.out.println(JSON.toJSONString(nums));
     }
 }
