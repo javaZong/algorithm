@@ -80,10 +80,63 @@ public class TopKSolution {
         return pointIndex;
     }
 
+    /**
+     * 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面
+     * https://leetcode.cn/problems/diao-zheng-shu-zu-shun-xu-shi-qi-shu-wei-yu-ou-shu-qian-mian-lcof/description/
+     * @param nums
+     * @return
+     */
+     public int[] exchange(int[] nums) {
+      if(nums==null||nums.length<2){
+          return nums;
+      }
+      int slowIndex=0;
+      int maxIndex=nums.length-1;
+      for(int fastIndex=slowIndex;fastIndex<=maxIndex;fastIndex++){
+          if((nums[fastIndex]&1)==1){
+              ArrayUtils.swap(nums,slowIndex,fastIndex);
+              slowIndex++;
+          }
+      }
+      return nums;
+     }
+
+    /**
+     * 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，使得所有的奇数位于数组的前半部分，所有的偶数位于数组的后半部分，并保证奇数和奇数，偶数和偶数之间的相对位置不变。
+     * @param nums
+     * @return
+     */
+    public void reOrderArray(int [] array) {
+        if(array==null||array.length<2){
+            return;
+        }
+        int oddSize=0;
+        for(int n:array){
+            if((n&1)==1){
+                oddSize+=1;
+            }
+        }
+        System.out.println(oddSize);
+        int[] nums=new int[array.length];
+        for(int i=0;i<array.length;i++){
+            if((array[i]&1)==1){
+                nums[i]=array[i];
+            }else{
+                nums[i+oddSize]=array[i];
+            }
+        }
+
+        for(int i=0;i<array.length;i++){
+            array[i]=nums[i];
+        }
+
+    }
+
     public static void main(String[] args) {
         TopKSolution solution = new TopKSolution();
-        int[] nums = ArrayUtils.buildRandomArray(10);
+        int[] nums = {1,2,3,4,5,6,7};
         System.out.println("args = " + Arrays.toString(nums));
-        System.out.println("target = " + Arrays.toString(solution.findTopKByQuickSort(nums, 5)));
+        solution.reOrderArray(nums);
+        System.out.println("target = " + Arrays.toString(nums));
     }
 }
