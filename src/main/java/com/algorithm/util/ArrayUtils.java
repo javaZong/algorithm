@@ -14,6 +14,13 @@ public class ArrayUtils {
         return array;
     }
 
+    public static void swap(int[] array, int left, int right) {
+        int temp = array[left];
+        array[left] = array[right];
+        array[right] = temp;
+    }
+
+
     public static void main(String[] args) {
         int[] array = buildRandomArray(5);
         System.out.println(Arrays.toString(array));

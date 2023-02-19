@@ -251,6 +251,7 @@ public class CommonSort {
 
     /**
      * 堆排序
+     *
      * @param array
      */
     public static void heapSort(int[] array) {
@@ -266,6 +267,7 @@ public class CommonSort {
 
     /**
      * 构建最大堆
+     *
      * @param array
      */
     private static void buildMaxHeap(int[] array) {
@@ -278,11 +280,40 @@ public class CommonSort {
 
     /**
      * 构建最子堆
+     *
      * @param array
      * @param i
      * @param arraySize
      */
     private static void heapify(int[] array, int i, int arraySize) {
+
+        int leftIndex = (i << 1) + 1;
+        int maxIndex = i;
+        int rightIndex = 0;
+        while (leftIndex < arraySize) {
+            rightIndex = leftIndex + 1;
+            // 比较左右子节点哪个比较大
+            int largestIndexOfSon = rightIndex < arraySize && array[rightIndex] > array[leftIndex] ? rightIndex : leftIndex;
+            // 比较父节点和较大的子节点，哪个更大
+            largestIndexOfSon = array[largestIndexOfSon] > array[i] ? largestIndexOfSon : i;
+            // 当前i下的堆已经是最小堆了，无需继续执行比较了
+            if (largestIndexOfSon == i) {
+                return;
+            }
+            swap(array, i, largestIndexOfSon);
+            i = largestIndexOfSon;
+            leftIndex = (i << 1) + 1;
+        }
+    }
+
+    /**
+     * 递归构建最子堆
+     *
+     * @param array
+     * @param i
+     * @param arraySize
+     */
+    private static void heapifyByRecursion(int[] array, int i, int arraySize) {
 
         int leftIndex = i * 2 + 1;
         int maxIndex = i;
@@ -310,7 +341,7 @@ public class CommonSort {
         int length = 10;
         int[] array = ArrayUtils.buildRandomArray(length);
         System.out.println(Arrays.toString(array));
-        heapSort(array);
+        quickSortByForeach(array);
         System.out.println(Arrays.toString(array));
     }
 }

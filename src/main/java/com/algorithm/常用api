@@ -1,0 +1,11 @@
+队列 queue
+
+PriorityQueue: Object[] 数组来实现二叉堆
+ArrayQueue: Object[] 数组 + 双指针
+
+Queue 是单端队列，只能从一端插入元素，另一端删除元素，实现上一般遵循 先进先出（FIFO） 规则。Queue 扩展了 Collection 的接口，
+根据 因为容量问题而导致操作失败后处理方式的不同 可以分为两类方法: 一种在操作失败后会抛出异常，另一种则会返回特殊值。
+Queue 接口抛出异常  返回特殊值
+插入队尾      add(E e)    offer(E e)
+删除队首      remove()    poll()
+查询队首元素   element()   peek()
