@@ -37,39 +37,20 @@ public class ReverseList {
     /**
      * 反转链表-递归
      *
-     * @param node
+     * @param head
      * @return
      */
 
-    private static ListNode reversionListByRecursion(ListNode node) {
-        if (node == null) {
-            return node;
+    private static ListNode reversionListByRecursion(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
         }
-        List<ListNode> rootContainer = new ArrayList<>(1);
-        reversionListByRecursion(node, rootContainer);
-        return rootContainer.get(0);
+        ListNode newHead = reversionListByRecursion(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
     }
 
-    /**
-     * 递归，在反转当前节点之前先反转后续节点
-     *
-     * @param node
-     * @param rootContainer
-     * @return
-     */
-    private static ListNode reversionListByRecursion(ListNode node, List<ListNode> rootContainer) {
-        if (node.next == null) {
-            rootContainer.add(node);
-            return node;
-        }
-
-        ListNode operateNode = reversionListByRecursion(node.next, rootContainer);
-        // node为当前节点，此步骤是反转node的下一节点
-        node.next.next = node;
-        // 反转node节点
-        node.next = null;
-        return operateNode;
-    }
 
     /**
      * 反转链表
@@ -141,6 +122,7 @@ public class ReverseList {
     /**
      * 给你一个链表，两两交换其中相邻的节点，并返回交换后链表的头节点。你必须在不修改节点内部的值的情况下完成本题（即，只能进行节点交换）。
      * https://leetcode.cn/problems/swap-nodes-in-pairs/description/
+     *
      * @param head
      * @return
      */
@@ -166,20 +148,81 @@ public class ReverseList {
         return newRootNode;
     }
 
-    public static void main(String[] args) {
-        System.out.println(2000000000%3);
-        ListNode node = new ListNode(1);
-        ListNode secNode = new ListNode(2);
-        node.next = secNode;
-        ListNode thirdNode = new ListNode(3);
-//        secNode.next = thirdNode;
-        ListNode newNode = mergeTwoLists(node, thirdNode);
-        System.out.println(newNode.val);
-//        ListNode targetNode = reversionList(node);
-//
-//        ListNode targetNode1 = reversionListByRecursion(node);
-//        System.out.println("a=" + targetNode1.val);
+    /**
+     * 给你一个链表的头节点 head ，旋转链表，将链表每个节点向右移动 k 个位置。
+     * <p>
+     * 解题思路：快慢指针
+     * 快指针先移动k次位置，则快指针领先慢指针k次位置，当指针移动到链表最后一个节点时
+     * 慢指针所在节点在移动后变成最后一个节点，慢指针的下一个节点变成新的首节点
+     *
+     * @param head
+     * @param k
+     * @return
+     */
+    public static ListNode rotateRight(ListNode head, int k) {
+        if (k <= 0 || head.next == null) {
+            return head;
+        }
+        ListNode fastNode = head;
+        ListNode slowNode = head;
+        int i = 0;
+        while (i < k) {
+            i++;
+            fastNode = fastNode.next;
+            if (fastNode == null) {
+                fastNode = head;
+            }
+        }
+        while (fastNode.next != null) {
+            fastNode = fastNode.next;
+            slowNode = slowNode.next;
+        }
+        fastNode.next = head;
+        ListNode newHead = slowNode.next;
+        slowNode.next = null;
+        return newHead;
+    }
 
+    /**
+     * 寻找链表中的中间节点
+     *
+     * @param head
+     * @return
+     */
+    public static ListNode findMidNode(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        // 节点数为偶数时，初始化试，快指针领先慢指针一步
+        // 慢指针小标(从1开始)=（length）/2
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while (fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
+            if (fast.next != null) {
+                fast = fast.next;
+            }
+        }
+        return slow;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(2000000000 % 3);
+        ListNode newNode = findMidNode(buildListNode(4));
+        System.out.println(newNode.val);
+
+    }
+
+    private static ListNode buildListNode(int length) {
+        ListNode head = new ListNode(0);
+        ListNode node = new ListNode(1);
+        head.next = node;
+        for (int i = 2; i <= length; i++) {
+            node.next = new ListNode(i);
+            node = node.next;
+        }
+        return head.next;
     }
 }
 
