@@ -243,24 +243,16 @@ public class ForeachBinaryTree {
         Stack<Integer> stack = new Stack<>();
         stack.push(0);
         Integer curIndex = 0;
-        boolean addNewNode = true;
-        while (!stack.isEmpty()) {
-            curIndex = stack.peek();
-            int leftIndex = curIndex * 2 + 1;
-            if (leftIndex <= maxIndex && addNewNode) {
+        while (!stack.isEmpty() || curIndex <= maxIndex) {
+            while (curIndex <= maxIndex) {
                 // 存在左子树节点，则压入栈
-                stack.push(leftIndex);
-                continue;
+                stack.push(curIndex);
+                curIndex = curIndex * 2 + 1;
             }
             // 不存在，则代表左子树已遍历完,开始遍历右子树节点
             curIndex = stack.pop();
-            addNewNode = false;
             System.out.println("midForeachLoop=" + array[curIndex]);
-            int rightIndex = curIndex * 2 + 2;
-            if (rightIndex <= maxIndex) {
-                stack.push(rightIndex);
-                addNewNode = true;
-            }
+            curIndex = curIndex * 2 + 2;
         }
     }
 
@@ -293,5 +285,27 @@ public class ForeachBinaryTree {
             queue.add(leftIndex);
             queue.add(leftIndex + 1);
         }
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        Stack<TreeNode> stack = new Stack();
+        Integer preVal = null;
+        while (!stack.empty() || preVal == null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (preVal == null || preVal < root.val) {
+                preVal = root.val;
+            } else {
+                return false;
+            }
+            root = root.right;
+        }
+        return true;
     }
 }
