@@ -118,11 +118,13 @@ public class TopKSolution {
         }
         System.out.println(oddSize);
         int[] nums=new int[array.length];
+        int oddIndex=0;
+        int evenIndex=oddSize;
         for(int i=0;i<array.length;i++){
             if((array[i]&1)==1){
-                nums[i]=array[i];
+                nums[oddIndex++]=array[i];
             }else{
-                nums[i+oddSize]=array[i];
+                nums[evenIndex++]=array[i];
             }
         }
 
