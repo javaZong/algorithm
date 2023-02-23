@@ -11,3 +11,20 @@
 可解决问题：
 1、获取书的宽度
 2、判断书是否是一个完全二叉树，或者满二叉树
+
+
+树型DP问题
+
+递归
+问左子树要信息
+问右子树要信息
+综合比较树节点信息，然后放回当前节点的信息
+信息=Object对象，包含你所要信息（属性）
+
+public static Info f(Node x){
+if(x == null) {return new Info(xx,xxx,xx)};
+Info leftData = f(x.left);
+Info rightData = f(x.right);
+聚合leftData和rightData 成新的Info
+return NEW info
+}
