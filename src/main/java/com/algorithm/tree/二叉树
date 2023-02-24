@@ -21,10 +21,11 @@
 综合比较树节点信息，然后放回当前节点的信息
 信息=Object对象，包含你所要信息（属性）
 
-public static Info f(Node x){
-if(x == null) {return new Info(xx,xxx,xx)};
+public static Object f(Node x){
+if(x == null) {return new Object(xx,xxx,xx)};
+视问题视情况，是否要特殊处理叶子节点
 Info leftData = f(x.left);
 Info rightData = f(x.right);
 聚合leftData和rightData 成新的Info
-return NEW info
+return NEW Object
 }
