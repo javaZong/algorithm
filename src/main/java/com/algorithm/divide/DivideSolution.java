@@ -1,7 +1,7 @@
 package com.algorithm.divide;
 
-import com.algorithm.util.ArrayUtils;
-import com.alibaba.fastjson.JSON;
+import com.algorithm.model.ListNode;
+import com.algorithm.util.AlgorithmUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -109,12 +109,36 @@ public class DivideSolution {
         return length;
     }
 
+
+    public ListNode partition(ListNode head, int x) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode smallListHead = new ListNode(0);
+        ListNode smallListTail = smallListHead;
+        ListNode largerListHead = new ListNode(0);
+        ListNode largerListTail = largerListHead;
+        while (head != null) {
+            ListNode temp=head.next;
+            if (head.val < x) {
+                smallListTail.next = head;
+                smallListTail=smallListTail.next;
+                smallListTail.next=null;
+            } else {
+                largerListTail.next = head;
+                largerListTail=largerListTail.next;
+                largerListTail.next=null;
+            }
+            head = temp;
+        }
+        smallListTail.next = largerListHead.next;
+        return smallListHead.next;
+    }
+
     public static void main(String[] args) {
         DivideSolution divideSolution = new DivideSolution();
-        String s = "aaacbb";
-        System.out.println(divideSolution.longestSubstring(s, 4));
-        int[] nums = ArrayUtils.buildRandomArray(10);
-        divideSolution.mergeSort(nums);
-        System.out.println(JSON.toJSONString(nums));
+        int[] nums = {1};
+        ListNode listNode = divideSolution.partition(AlgorithmUtils.buildListNode(nums), 0);
+        System.out.println(listNode.val);
     }
 }

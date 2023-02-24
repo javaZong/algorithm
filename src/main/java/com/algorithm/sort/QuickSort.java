@@ -1,6 +1,6 @@
 package com.algorithm.sort;
 
-import com.algorithm.util.ArrayUtils;
+import com.algorithm.util.AlgorithmUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -61,18 +61,18 @@ public class QuickSort {
         int slowIndex = left + 1;
         for (int fastIndex = slowIndex; fastIndex <= right; fastIndex++) {
             if (nums[fastIndex] < temp) {
-                ArrayUtils.swap(nums, slowIndex, fastIndex);
+                AlgorithmUtils.swap(nums, slowIndex, fastIndex);
                 slowIndex++;
             }
         }
         int pointIndex = slowIndex - 1;
-        ArrayUtils.swap(nums, left, pointIndex);
+        AlgorithmUtils.swap(nums, left, pointIndex);
         return pointIndex;
     }
 
     public static void main(String[] args) {
         int length = 10;
-        int[] array = ArrayUtils.buildRandomArray(length);
+        int[] array = AlgorithmUtils.buildRandomArray(length);
         System.out.println(Arrays.toString(array));
 //        quickSortByRecursion(array, 0, array.length - 1);
         quickSortByForeach(array);

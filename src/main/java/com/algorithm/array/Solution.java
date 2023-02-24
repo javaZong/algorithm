@@ -1,12 +1,8 @@
 package com.algorithm.array;
 
-import com.algorithm.util.ArrayUtils;
-import com.alibaba.fastjson.JSON;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by java_zong on 2019/5/18.

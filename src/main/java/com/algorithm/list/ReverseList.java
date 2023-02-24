@@ -1,10 +1,8 @@
 package com.algorithm.list;
 
-import com.algorithm.list.bo.ListNode;
+import com.algorithm.model.ListNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by java_zong on 2019/5/16.

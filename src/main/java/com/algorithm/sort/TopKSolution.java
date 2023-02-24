@@ -1,6 +1,6 @@
 package com.algorithm.sort;
 
-import com.algorithm.util.ArrayUtils;
+import com.algorithm.util.AlgorithmUtils;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -71,12 +71,12 @@ public class TopKSolution {
         int slowIndex = left + 1;
         for (int fastIndex = slowIndex; fastIndex <= right; fastIndex++) {
             if (nums[fastIndex] < temp) {
-                ArrayUtils.swap(nums, slowIndex, fastIndex);
+                AlgorithmUtils.swap(nums, slowIndex, fastIndex);
                 slowIndex++;
             }
         }
         int pointIndex = slowIndex - 1;
-        ArrayUtils.swap(nums, left, pointIndex);
+        AlgorithmUtils.swap(nums, left, pointIndex);
         return pointIndex;
     }
 
@@ -94,7 +94,7 @@ public class TopKSolution {
       int maxIndex=nums.length-1;
       for(int fastIndex=slowIndex;fastIndex<=maxIndex;fastIndex++){
           if((nums[fastIndex]&1)==1){
-              ArrayUtils.swap(nums,slowIndex,fastIndex);
+              AlgorithmUtils.swap(nums,slowIndex,fastIndex);
               slowIndex++;
           }
       }

@@ -1,6 +1,6 @@
 package com.algorithm.sort;
 
-import com.algorithm.util.ArrayUtils;
+import com.algorithm.util.AlgorithmUtils;
 
 import java.util.*;
 
@@ -368,7 +368,7 @@ public class CommonSort {
 
     public static void main(String[] args) {
         int length = 10;
-        int[] array = ArrayUtils.buildRandomArray(length);
+        int[] array = AlgorithmUtils.buildRandomArray(length);
         System.out.println(Arrays.toString(array));
         quickSortByForeach(array);
         System.out.println(Arrays.toString(array));
