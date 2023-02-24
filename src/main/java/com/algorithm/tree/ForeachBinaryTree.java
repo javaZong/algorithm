@@ -314,16 +314,14 @@ public class ForeachBinaryTree {
         stack.push(0);
         Integer curIndex = 0;
         while (!stack.isEmpty() || curIndex <= maxIndex) {
-            if (curIndex <= maxIndex) {
-                // 把当前节点压入栈，然后遍历压入左子树节点
+            while (curIndex <= maxIndex) {
+                // 存在左子树节点，则压入栈
                 stack.push(curIndex);
                 curIndex = curIndex * 2 + 1;
-                continue;
             }
             // 不存在，则代表左子树已遍历完,开始遍历右子树节点
             curIndex = stack.pop();
             System.out.println("midForeachLoop=" + array[curIndex]);
-            // 开始压入右子树
             curIndex = curIndex * 2 + 2;
         }
     }
@@ -357,5 +355,27 @@ public class ForeachBinaryTree {
             queue.add(leftIndex);
             queue.add(leftIndex + 1);
         }
+    }
+
+    public boolean isValidBST(TreeNode root) {
+        if (root == null) {
+            return false;
+        }
+        Stack<TreeNode> stack = new Stack();
+        Integer preVal = null;
+        while (!stack.empty() || preVal == null) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (preVal == null || preVal < root.val) {
+                preVal = root.val;
+            } else {
+                return false;
+            }
+            root = root.right;
+        }
+        return true;
     }
 }
