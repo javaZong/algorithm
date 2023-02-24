@@ -130,6 +130,7 @@ public class Solution {
             // 遇到目标节点，直接返回即可
             return root;
         }
+        // 可能是p节点，可能是q节点，也可能是任意一节点的父节点
         TreeNode leftNode = lowestCommonAncestor(root.left, p, q);
         TreeNode rightNode = lowestCommonAncestor(root.right, p, q);
 
