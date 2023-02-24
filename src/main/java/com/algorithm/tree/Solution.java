@@ -1,5 +1,7 @@
 package com.algorithm.tree;
 
+import com.algorithm.model.TreeNode;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,71 +9,6 @@ import java.util.Queue;
  * Created by java_zong on 2019/5/17.
  */
 public class Solution {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
-
-    public static TreeNode reConstructBinaryTree(int[] pre, int[] in) {
-        if (pre == null || in == null || (pre.length != in.length)) {
-            return null;
-        }
-        return reConstructBinaryTree(pre, 0, pre.length - 1,
-                in, 0, in.length - 1);
-    }
-
-    /**
-     * 递归实现
-     *
-     * @param pre      前序遍历数组
-     * @param preStart 前序遍历数组起始
-     * @param preEnd
-     * @param in
-     * @param inStart
-     * @param inEnd
-     * @return
-     */
-    public static TreeNode reConstructBinaryTree(int[] pre, int preStart, int preEnd,
-                                                 int[] in, int inStart, int inEnd) {
-        if (preStart > preEnd || inStart > inEnd) {
-            return null;
-        }
-        TreeNode node = new TreeNode(pre[preStart]);
-        if (preStart == preEnd && inStart == inEnd) {
-            return node;
-        }
-
-        int leftTreeSize = 0, rightTreeSize = 0;
-        int i;
-        for (i = inStart; i < inEnd + 1; i++) {
-            if (in[i] == pre[preStart]) {
-                leftTreeSize = i - inStart;
-                rightTreeSize = inEnd - i;
-                break;
-            }
-        }
-
-        node.left = reConstructBinaryTree(pre, preStart + 1, preStart + leftTreeSize,
-                in, inStart, inStart + leftTreeSize - 1);
-
-        node.right = reConstructBinaryTree(pre, preEnd - rightTreeSize + 1, preEnd,
-                in, inEnd - rightTreeSize + 1, inEnd);
-
-
-        return node;
-    }
-
-//    public static void main(String[] args) {
-//        int[] pre = {1, 2, 4, 7, 3, 5, 6, 8};
-//        int[] in = {4, 7, 2, 1, 5, 3, 8, 6};
-//        TreeNode treeNode = reConstructBinaryTree(pre, in);
-//        System.out.println(treeNode);
-//    }
 
     public static void main(String[] args) {
         int[] minArray = new int[1];
@@ -177,4 +114,29 @@ public class Solution {
         return true;
     }
 
+    /**
+     * 二叉树的最近公共祖先
+     *
+     * @param root
+     * @param p    节点1
+     * @param q    节点2
+     * @return
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
+            // 遇到目标节点，直接返回即可
+            return root;
+        }
+        TreeNode leftNode = lowestCommonAncestor(root.left, p, q);
+        TreeNode rightNode = lowestCommonAncestor(root.right, p, q);
+
+        // 都不为空，说明已经找到了p节点和q节点，遇到一个最近的公共祖先了
+        if (leftNode != null && rightNode != null) {
+            return root;
+        }
+        return leftNode != null ? leftNode : rightNode;
+    }
 }
