@@ -1,18 +1,11 @@
 package com.algorithm.tree;
 
+import com.algorithm.model.TreeNode;
+
 /**
  * Created by java_zong on 2019/5/17.
  */
 public class RebuildBinaryTree {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
 
     public static TreeNode reConstructBinaryTree(int[] pre, int[] in) {
         if (pre == null || in == null || (pre.length != in.length)) {
