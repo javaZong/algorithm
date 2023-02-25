@@ -378,4 +378,56 @@ public class ForeachBinaryTree {
         }
         return true;
     }
+
+    /**
+     * 二叉树展开成链表（链表按照前序遍历排序）
+     * @param root
+     */
+    public void flatten(TreeNode root){
+        if(root==null){
+            return ;
+        }
+        Stack<TreeNode> stack=new Stack();
+        stack.push(root);
+        // 记录父节点的位置
+        TreeNode pre=null;
+        TreeNode cur=root;
+        while(!stack.empty()){
+            cur=stack.pop();
+            if(pre!=null){
+                pre.left=null;
+                pre.right=cur;
+            }
+            TreeNode tempLeftNode=cur.left;
+            TreeNode tempRightNode=cur.right;
+            if(tempRightNode!=null){
+                stack.push(tempRightNode);
+            }
+
+            if(tempLeftNode!=null){
+                stack.push(tempLeftNode);
+            }
+            pre=cur;
+        }
+    }
+
+     public TreeNode flattenByRecursion(TreeNode root){
+         if(root==null){
+             return null;
+         }
+         if(root.left==null&&root.right==null){
+             return root;
+         }
+         // 头部节点是已经知道的，目的是要知道根部节点才好追加节点，返回左子树前序遍历的最后一个节点就是尾部节点
+         TreeNode leftTail=flattenByRecursion(root.left);
+         TreeNode rightTail=flattenByRecursion(root.right);
+         TreeNode temp=root.right;
+         if(leftTail!=null){
+             root.right=root.left;
+             root.left=null;
+             leftTail.right=temp;
+             leftTail.left=null;
+         }
+         return rightTail!=null?rightTail:leftTail;
+     }
 }
