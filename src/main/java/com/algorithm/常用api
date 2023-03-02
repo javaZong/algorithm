@@ -9,3 +9,13 @@ Queue 接口抛出异常  返回特殊值
 插入队尾      add(E e)    offer(E e)
 删除队首      remove()    poll()
 查询队首元素   element()   peek()
+
+
+位运算相关：
+
+计算一个数字的二进制有多少1
+ while(num != 0){
+   	 num = num & (num-1);
+    	 count++;
+    }
+    return count;
