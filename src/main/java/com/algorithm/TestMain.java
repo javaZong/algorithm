@@ -2,14 +2,17 @@ package com.algorithm;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TestMain {
 
     public static void main(String[] args) {
-        int i=0;
-        System.out.println(i<<1);
+        List list=new ArrayList();
+        list.add("a");
+       List l= new ArrayList(list);
+       int[] i=new int[10];
+       int[] j=Arrays.copyOf(i,i.length);
+       list=Arrays.asList(i);
     }
 
     public static int maxSubArray(int[] nums) {
