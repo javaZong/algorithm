@@ -1,13 +1,12 @@
 package com.algorithm.queue;
 
-import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
  * 两个栈实现队列
  * Created by java_zong on 2019/5/18.
  */
-public class Soltuion {
+public class MyQueue {
 
     /**
      * 用来push
