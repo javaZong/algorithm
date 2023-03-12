@@ -172,6 +172,7 @@ public class BacktrackSolution {
 
     /**
      * 全排列（不包含重复数字）
+     *
      * @param nums
      * @return
      */
@@ -247,11 +248,55 @@ public class BacktrackSolution {
         }
     }
 
+    /**
+     * 数字 n 代表生成括号的对数，请你设计一个函数，用于能够生成所有可能的并且 有效的 括号组合。
+     * <p>
+     * 示例 1：
+     * <p>
+     * 输入：n = 3
+     * 输出：["((()))","(()())","(())()","()(())","()()()"]
+     * 示例 2：
+     * <p>
+     * 输入：n = 1
+     * 输出：["()"]
+     * <p>
+     * 提示：
+     * <p>
+     * 1 <= n <= 8
+     *
+     * @param n
+     * @return
+     */
+    public List<String> generateParenthesis(int n) {
+        int length=n<<1;
+        char[] chars = new char[length];
+        List<String> list = new ArrayList<>();
+        generateParenthesisProcess(0, n, n, chars, list, length);
+        return list;
+    }
+
+    private void generateParenthesisProcess(int i, int leftNumSize, int rightNumSize, char[] chars, List<String> list, int n) {
+        if (i == n) {
+            String str = new String(chars);
+            list.add(str);
+            return;
+        }
+
+        if (leftNumSize > 0) {
+            chars[i] = '(';
+            generateParenthesisProcess(i + 1, leftNumSize-1, rightNumSize, chars, list, n);
+        }
+        if (leftNumSize < rightNumSize && rightNumSize > 0) {
+            chars[i] = ')';
+            generateParenthesisProcess(i + 1, leftNumSize, rightNumSize - 1, chars, list, n);
+        }
+    }
+
 
     public static void main(String[] args) {
         BacktrackSolution solution = new BacktrackSolution();
-        System.out.println(solution.multiQueens(4));
-        System.out.println(solution.solveNQueens(4).size());
+        System.out.println(solution.generateParenthesis(3));
+//        System.out.println(solution.solveNQueens(4).size());
     }
 
 }
