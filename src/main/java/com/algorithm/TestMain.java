@@ -7,12 +7,9 @@ import java.util.*;
 public class TestMain {
 
     public static void main(String[] args) {
-        List list=new ArrayList();
-        list.add("a");
-       List l= new ArrayList(list);
-       int[] i=new int[10];
-       int[] j=Arrays.copyOf(i,i.length);
-       list=Arrays.asList(i);
+        String a = "a";
+        System.out.println(Character.isDigit(a.charAt(0)));
+
     }
 
     public static int maxSubArray(int[] nums) {
@@ -32,30 +29,30 @@ public class TestMain {
     }
 
     public static int numDifferentIntegers(String word) {
-        Set<String> set=new HashSet();
-        char[] chars=word.toCharArray();
-        String strNum="";
-        boolean existNum=false;
-        int size=0;
-        for(int i=0;i<chars.length;i++){
-            int temp=chars[i];
-            if(temp<57){
-                if(temp==48&!existNum){
-                    existNum=false;
+        Set<String> set = new HashSet();
+        char[] chars = word.toCharArray();
+        String strNum = "";
+        boolean existNum = false;
+        int size = 0;
+        for (int i = 0; i < chars.length; i++) {
+            int temp = chars[i];
+            if (temp < 57) {
+                if (temp == 48 & !existNum) {
+                    existNum = false;
                     continue;
                 }
-                existNum=true;
-                strNum+=chars[i];
-                if (i==chars.length-1){
+                existNum = true;
+                strNum += chars[i];
+                if (i == chars.length - 1) {
                     set.add(strNum);
                     continue;
                 }
-            }else{
-                if(existNum){
+            } else {
+                if (existNum) {
                     set.add(strNum);
-                    strNum="";
+                    strNum = "";
                 }
-                existNum=false;
+                existNum = false;
             }
         }
         return set.size();

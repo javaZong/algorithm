@@ -19,3 +19,13 @@ Queue 接口抛出异常  返回特殊值
     	 count++;
     }
     return count;
+
+
+
+
+字符串相关：
+  判断一个字符是否是数字
+   Character.isDigit(char)
+
+
+Arrays.copyOfRange(targetArray,from,to)  // 包含，from和to
