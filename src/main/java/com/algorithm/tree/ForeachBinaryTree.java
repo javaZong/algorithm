@@ -1,5 +1,7 @@
 package com.algorithm.tree;
 
+import com.algorithm.model.TreeNode;
+
 import java.util.*;
 
 /**
@@ -7,15 +9,6 @@ import java.util.*;
  * Created by java_zong on 2019/5/17.
  */
 public class ForeachBinaryTree {
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode(int x) {
-            val = x;
-        }
-    }
 
 
     public static void main(String[] args) {
@@ -23,54 +16,10 @@ public class ForeachBinaryTree {
         int[] in = {4, 7, 2, 1, 5, 3, 8, 6};
         int[] array = {1, 2, 3, 4, 5, 6, 7, 8};
         TreeNode rootNode = buildBinaryTree(array);
-        System.out.println(maxDepth(rootNode));
-    }
-
-    /**
-     * 后序遍历二叉树
-     *
-     * @param rootNode
-     */
-    private static void lateRecursion(TreeNode rootNode) {
-        if (rootNode == null || rootNode.left == null) {
-            return;
-        }
-        lateRecursion(rootNode.left);
-        lateRecursion(rootNode.right);
-        System.out.println("lateRecursion:" + rootNode.val);
-    }
-
-    public static void lateForeach(TreeNode root) {
-        Stack<TreeNode> s = new Stack<>();
-        TreeNode cur = root;
-        // 用于记录上一次访问的节点
-        TreeNode pre = null;
-        while (cur != null || !s.isEmpty()) {
-            if (cur != null) {
-                s.push(cur);
-                cur = cur.left;
-                continue;
-            }
-            cur = s.pop();
-            // 访问节点的条件 右节点为空或者已经访问右节点了，则可以直接打印
-            if (cur.right == null || pre == cur.right) {
-                System.out.println("lateForeach:" + cur.val);
-                // 这一步是记录上一次访问的节点
-                pre = cur;
-                // 此处为了跳过下一次循环的访问左子节点的过程，直接进入栈的弹出阶段，
-                // 因为但凡在栈中的节点，它们的左子节点都肯定被经过且已放入栈中。
-                // （肯定是已经遍历完当前节点下的子节点了）
-                cur = null;
-                continue;
-            }
-            // 不访问节点的条件
-            // 将已弹出的根节点放回栈中
-            // 经过右子节点
-            s.push(cur);
-            cur = cur.right;
-        }
+        preMorris(rootNode);
 
     }
+
 
     /**
      * 循环建立二叉树
@@ -78,7 +27,7 @@ public class ForeachBinaryTree {
      * @param array
      * @return
      */
-    private static TreeNode buildBinaryTree(int array[]) {
+    public static TreeNode buildBinaryTree(int array[]) {
 
         if (array == null || array.length < 1) {
             return null;
@@ -121,7 +70,7 @@ public class ForeachBinaryTree {
      * @param array
      * @return
      */
-    private static TreeNode buildBinaryTreeRecursion(int array[]) {
+    public static TreeNode buildBinaryTreeRecursion(int array[]) {
 
         if (array == null || array.length < 1) {
             return null;
@@ -129,7 +78,7 @@ public class ForeachBinaryTree {
         return buildBinaryTreeRecursion(0, array);
     }
 
-    private static TreeNode buildBinaryTreeRecursion(int index, int array[]) {
+    public static TreeNode buildBinaryTreeRecursion(int index, int array[]) {
 
         if (index > array.length - 1) {
             return null;
@@ -159,14 +108,14 @@ public class ForeachBinaryTree {
      *
      * @param array
      */
-    private static void preRecursion(int[] array) {
+    public static void preRecursion(int[] array) {
         if (array == null || array.length < 1) {
             return;
         }
         preRecursion(0, array);
     }
 
-    private static void preRecursion(int index, int[] array) {
+    public static void preRecursion(int index, int[] array) {
         if (index > array.length - 1) {
             return;
         }
@@ -186,7 +135,7 @@ public class ForeachBinaryTree {
      *
      * @param array
      */
-    private static void preForeach(int[] array) {
+    public static void preForeach(int[] array) {
         if (array == null || array.length < 1) {
             return;
         }
@@ -212,56 +161,61 @@ public class ForeachBinaryTree {
         }
     }
 
-    public static int maxDepth(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(root);
-        int curLevelSize = 0;
-        int curDepth = 0;
-        while (!queue.isEmpty()) {
-            curLevelSize = queue.size();
-            while (curLevelSize > 0) {
-                root = queue.poll();
-                if (root.left != null) {
-                    queue.add(root.left);
+    public static void morris(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode mostRightNode = null;
+        while (cur != null) {
+            mostRightNode = cur.left;
+            if (mostRightNode != null) {
+                while (mostRightNode.right != null && mostRightNode.right != cur) {
+                    mostRightNode = mostRightNode.right;
                 }
-                if (root.right != null) {
-                    queue.add(root.right);
+                if (mostRightNode.right == null) {
+                    mostRightNode.right = cur;
+                    cur = cur.left;
+                } else {
+                    // mostRightNode.right不为空 代表当前cur已经走过了
+                    mostRightNode.right = null;
                 }
-                curLevelSize--;
             }
-            // 当curLevelSize=0时，意味着要进入下一层了
-            curDepth++;
+            cur = cur.right;
         }
-        return curDepth;
+
     }
 
-    public static int maxDepthByPreForeach(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        Stack<TreeNode> stack = new Stack<>();
-        // 记录当前节点所在的层数
-        Map<TreeNode, Integer> map = new HashMap<>();
-        stack.push(root);
-        map.put(root, 1);
-        int maxDepth = 0;
-        while (!stack.empty()) {
-            root = stack.pop();
-            Integer curDepth = map.get(root);
-            maxDepth = Math.max(maxDepth, curDepth);
-            if (root.right != null) {
-                stack.push(root.right);
-                map.put(root.right, curDepth + 1);
+    public static void preMorris(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode mostRightNode = null;
+        while (cur != null) {
+
+            mostRightNode = cur.left;
+            if (mostRightNode != null) {
+
+                while (mostRightNode.right != null && mostRightNode.right != cur) {
+                    mostRightNode = mostRightNode.right;
+                }
+                if (mostRightNode.right == null) {
+                    mostRightNode.right = cur;
+                    System.out.println(cur.val);
+                    cur = cur.left;
+                } else {
+                    // mostRightNode.right不为空 代表当前cur已经走过了
+                    mostRightNode.right = null;
+                }
+            } else {
+                System.out.println(cur.val);
             }
-            if (root.left != null) {
-                stack.push(root.left);
-                map.put(root.left, curDepth + 1);
-            }
+            cur = cur.right;
         }
-        return maxDepth;
+
+    }
+
+    private static TreeNode findMostRight(TreeNode root) {
+        TreeNode node = root.left;
+        while (node.right != null && node.right != root) {
+            node = node.right;
+        }
+        return node;
     }
 
     /**
@@ -326,6 +280,51 @@ public class ForeachBinaryTree {
         }
     }
 
+    /**
+     * 后序遍历二叉树
+     *
+     * @param rootNode
+     */
+    public static void lateRecursion(TreeNode rootNode) {
+        if (rootNode == null || rootNode.left == null) {
+            return;
+        }
+        lateRecursion(rootNode.left);
+        lateRecursion(rootNode.right);
+        System.out.println("lateRecursion:" + rootNode.val);
+    }
+
+    public static void lateForeach(TreeNode root) {
+        Stack<TreeNode> s = new Stack<>();
+        TreeNode cur = root;
+        // 用于记录上一次访问的节点
+        TreeNode pre = null;
+        while (cur != null || !s.isEmpty()) {
+            if (cur != null) {
+                s.push(cur);
+                cur = cur.left;
+                continue;
+            }
+            cur = s.pop();
+            // 访问节点的条件 右节点为空或者已经访问右节点了，则可以直接打印
+            if (cur.right == null || pre == cur.right) {
+                System.out.println("lateForeach:" + cur.val);
+                // 这一步是记录上一次访问的节点
+                pre = cur;
+                // 此处为了跳过下一次循环的访问左子节点的过程，直接进入栈的弹出阶段，
+                // 因为但凡在栈中的节点，它们的左子节点都肯定被经过且已放入栈中。
+                // （肯定是已经遍历完当前节点下的子节点了）
+                cur = null;
+                continue;
+            }
+            // 不访问节点的条件
+            // 将已弹出的根节点放回栈中
+            // 经过右子节点
+            s.push(cur);
+            cur = cur.right;
+        }
+
+    }
 
     /**
      * 层序遍历-循环
@@ -357,6 +356,13 @@ public class ForeachBinaryTree {
         }
     }
 
+
+    /**
+     * 判断是否为二叉搜索树
+     *
+     * @param root
+     * @return
+     */
     public boolean isValidBST(TreeNode root) {
         if (root == null) {
             return false;
@@ -381,53 +387,54 @@ public class ForeachBinaryTree {
 
     /**
      * 二叉树展开成链表（链表按照前序遍历排序）
+     *
      * @param root
      */
-    public void flatten(TreeNode root){
-        if(root==null){
-            return ;
+    public void flatten(TreeNode root) {
+        if (root == null) {
+            return;
         }
-        Stack<TreeNode> stack=new Stack();
+        Stack<TreeNode> stack = new Stack();
         stack.push(root);
         // 记录父节点的位置
-        TreeNode pre=null;
-        TreeNode cur=root;
-        while(!stack.empty()){
-            cur=stack.pop();
-            if(pre!=null){
-                pre.left=null;
-                pre.right=cur;
+        TreeNode pre = null;
+        TreeNode cur = root;
+        while (!stack.empty()) {
+            cur = stack.pop();
+            if (pre != null) {
+                pre.left = null;
+                pre.right = cur;
             }
-            TreeNode tempLeftNode=cur.left;
-            TreeNode tempRightNode=cur.right;
-            if(tempRightNode!=null){
+            TreeNode tempLeftNode = cur.left;
+            TreeNode tempRightNode = cur.right;
+            if (tempRightNode != null) {
                 stack.push(tempRightNode);
             }
 
-            if(tempLeftNode!=null){
+            if (tempLeftNode != null) {
                 stack.push(tempLeftNode);
             }
-            pre=cur;
+            pre = cur;
         }
     }
 
-     public TreeNode flattenByRecursion(TreeNode root){
-         if(root==null){
-             return null;
-         }
-         if(root.left==null&&root.right==null){
-             return root;
-         }
-         // 头部节点是已经知道的，目的是要知道根部节点才好追加节点，返回左子树前序遍历的最后一个节点就是尾部节点
-         TreeNode leftTail=flattenByRecursion(root.left);
-         TreeNode rightTail=flattenByRecursion(root.right);
-         TreeNode temp=root.right;
-         if(leftTail!=null){
-             root.right=root.left;
-             root.left=null;
-             leftTail.right=temp;
-             leftTail.left=null;
-         }
-         return rightTail!=null?rightTail:leftTail;
-     }
+    public TreeNode flattenByRecursion(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        if (root.left == null && root.right == null) {
+            return root;
+        }
+        // 头部节点是已经知道的，目的是要知道根部节点才好追加节点，返回左子树前序遍历的最后一个节点就是尾部节点
+        TreeNode leftTail = flattenByRecursion(root.left);
+        TreeNode rightTail = flattenByRecursion(root.right);
+        TreeNode temp = root.right;
+        if (leftTail != null) {
+            root.right = root.left;
+            root.left = null;
+            leftTail.right = temp;
+            leftTail.left = null;
+        }
+        return rightTail != null ? rightTail : leftTail;
+    }
 }

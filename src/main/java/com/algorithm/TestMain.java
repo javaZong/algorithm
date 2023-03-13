@@ -7,8 +7,9 @@ import java.util.*;
 public class TestMain {
 
     public static void main(String[] args) {
-        String a = "a";
-        System.out.println(Character.isDigit(a.charAt(0)));
+        String a = "abc";
+
+        System.out.println( a.substring(1,2));
 
     }
 
