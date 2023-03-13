@@ -196,10 +196,11 @@ public class ForeachBinaryTree {
                 }
                 if (mostRightNode.right == null) {
                     mostRightNode.right = cur;
+                    // 首次遍历时打印
                     System.out.println(cur.val);
                     cur = cur.left;
                 } else {
-                    // mostRightNode.right不为空 代表当前cur已经走过了
+                    // mostRightNode.right不为空 代表当前cur已经走过了，第二次走得时候直接略过
                     mostRightNode.right = null;
                 }
             } else {
