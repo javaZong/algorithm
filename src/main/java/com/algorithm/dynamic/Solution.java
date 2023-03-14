@@ -19,31 +19,31 @@ public class Solution {
         int preCharRowIndex = 0;
         int[][] array = new int[chars.length][2];
         boolean isZ = false;
-        char preChar='a';
+        char preChar = 'a';
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
             int colunmIndex = (c - 'a') / 5;
             int rowIndex = (c - 'a') % 5;
             array[i][0] = colunmIndex - preCharColumnIndex;
             array[i][1] = rowIndex - preCharRowIndex;
-            if (preChar==c){
+            if (preChar == c) {
                 continue;
             }
             preCharColumnIndex = colunmIndex;
             preCharRowIndex = rowIndex;
-            preChar=c;
+            preChar = c;
         }
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < chars.length; i++) {
             int upOrDownMoveTime = array[i][0];
             int leftOrRightMoveTimes = array[i][1];
-            if (upOrDownMoveTime<0){
+            if (upOrDownMoveTime < 0) {
                 append(str, ccs[1], upOrDownMoveTime);
                 append(str, ccs[0], leftOrRightMoveTimes);
                 str.append("!");
                 continue;
             }
-            if (leftOrRightMoveTimes<0){
+            if (leftOrRightMoveTimes < 0) {
                 append(str, ccs[0], leftOrRightMoveTimes);
                 append(str, ccs[1], upOrDownMoveTime);
                 str.append("!");
@@ -72,50 +72,35 @@ public class Solution {
         }
     }
 
+    /**
+     * 在一个 m*n 的棋盘的每一格都放有一个礼物，每个礼物都有一定的价值（价值大于 0）。你可以从棋盘的左上角开始拿格子里的礼物，并每次向右或者向下移动一格、直到到达棋盘的右下角。
+     * 给定一个棋盘及其上面的礼物的价值，请计算你最多能拿到多少价值的礼物？
+     *
+     * @param grid
+     * @return
+     */
+    public int maxValue(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i - 1][j]);
+                }
+                if (j > 0) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i][j - 1]);
+                }
+                dp[i][j] = dp[i][j] + grid[i][j];
+            }
+        }
+
+        return dp[m - 1][n - 1];
+    }
+
     public static void main(String[] args) {
-        List<String> list=letterCombinations("23");
-        System.out.println(JSON.toJSONString(list));
+        
     }
 
-    private static Map<String,String> map=new HashMap();
-    static{
-        map.put("2","abc");
-        map.put("3","def");
-        map.put("4","ghi");
-        map.put("5","jkl");
-        map.put("6","mno");
-        map.put("7","pqrs");
-        map.put("8","tuv");
-        map.put("9","wxyz");
-    }
-    public static List<String> letterCombinations(String digits) {
-        List<String> list=new ArrayList();
-        if(digits==null||digits.length()<1){
-            return list;
-        }
-        char[] chars=digits.toCharArray();
-        for(int i=0;i<chars.length;i++){
-            test(i,chars,new StringBuilder(),list);
-        }
-        return list;
-    }
 
-    public static void test(int i,char[] chars,StringBuilder builderStr,List<String> list){
-        if(i>=chars.length){
-            list.add(builderStr.toString());
-            return;
-        }
-        if(builderStr.length()==chars.length){
-            list.add(builderStr.toString());
-            return;
-        }
-        char numer=chars[i];
-        String str=map.get(String.valueOf(numer));
-
-        for(char c:str.toCharArray()){
-            builderStr.append(c);
-            test(i+1,chars,builderStr,list);
-        }
-
-    }
 }
