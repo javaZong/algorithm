@@ -8,8 +8,8 @@ public class TestMain {
 
     public static void main(String[] args) {
         String a = "abc";
-
-        System.out.println( a.substring(1,2));
+        int[] array={1,2,3};
+        System.out.println( Arrays.toString(Arrays.copyOfRange(array,1,2)));
 
     }
 

@@ -161,6 +161,18 @@ public class ForeachBinaryTree {
         }
     }
 
+    /**
+     * Morris遍历细节 时间复杂度O(N) 空间复杂度O(1)
+     * 核心思想：利用叶子节点的空闲指针，来帮助回到头节点
+     * 原则：
+     * 假设来到当前节点cur，开始时cur来到头节点位置
+     * 1)如果cur没有左孩子，cur向右移动(cur = cur.right)
+     * 2)如果cur有左孩子，找到左子树上最右的节点mostRight:
+     * a.如果mostRight的右指针指向空，让其指向cur,然后cur向左移动(cur = cur.left)
+     * b.如果mostRight的右指针指向cur，让其指向null然后cur向右移动(cur = cur.right)
+     * 3)cur为空时遍历停止
+     * @param root
+     */
     public static void morris(TreeNode root) {
         TreeNode cur = root;
         TreeNode mostRightNode = null;
