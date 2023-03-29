@@ -8,8 +8,8 @@ public class TestMain {
 
     public static void main(String[] args) {
         String a = "abc";
-        int[] array={1,2,3};
-        System.out.println( Arrays.toString(Arrays.copyOfRange(array,1,2)));
+        int[] array = {1, 2, 3};
+        System.out.println(Arrays.toString(Arrays.copyOfRange(array, 1, 2)));
 
     }
 
@@ -57,5 +57,40 @@ public class TestMain {
             }
         }
         return set.size();
+    }
+
+    public void nextPermutation(int[] nums) {
+        if (nums.length < 2) {
+            return;
+        }
+        int index = nums.length - 2;
+        while (index >= 0) {
+            if (nums[index] < nums[index + 1]) {
+                break;
+            }
+            index--;
+        }
+        if (index >= 0) {
+            int j = nums.length - 1;
+            while (j >= 0 && nums[index] >= nums[j]) {
+                j--;
+            }
+            swap(nums, index, j);
+        }
+        reverseNums(nums, index + 1);
+
+    }
+
+    private void swap(int[] nums, int left, int right) {
+        int temp = nums[left];
+        nums[left] = nums[right];
+        nums[right] = temp;
+    }
+
+    private void reverseNums(int[] nums, int start) {
+        int end = nums.length - 1;
+        while (start < end) {
+            swap(nums, start++, end--);
+        }
     }
 }

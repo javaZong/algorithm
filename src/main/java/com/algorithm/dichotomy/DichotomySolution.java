@@ -1,7 +1,9 @@
 package com.algorithm.dichotomy;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 public class DichotomySolution {
     /**
@@ -123,22 +125,76 @@ public class DichotomySolution {
      * @return
      */
     public int[] searchRange(int[] nums, int target) {
-        int left = 0;
-        int right = nums.length - 1;
-        int[] targetArray = {-1, -1};
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            if (nums[mid] > target) {
-                right = mid - 1;
-            } else if (nums[mid] < target) {
-                left = mid + 1;
-            }else {
-                // 最左侧
-                right=mid+1;
+        int[] ranges={-1,-1};
+        process(target,nums,0,nums.length-1,ranges);
+        return ranges;
+    }
 
+    private void process(int target,int[] nums,int left,int right,int[] ranges){
+        if(left>right){
+            return;
+        }
+        while(left<=right){
+            int mid=left+((right-left)>>1);
+            int midNum=nums[mid];
+            if(midNum==target){
+                if(mid<ranges[0]||ranges[0]==-1){
+                    ranges[0]=mid;
+                    process(target,nums,left,mid-1,ranges);
+                }
+                if(mid>ranges[1]){
+                    ranges[1]=mid;
+                    process(target,nums,mid+1,right,ranges);
+                }
+
+                return;
+            }
+            if(midNum>target){
+                process(target,nums,left,mid-1,ranges);
+                return;
+            }
+            process(target,nums,mid+1,right,ranges);
+            return;
+        }
+
+    }
+
+    public int[] searchRangeByForeach(int[] nums, int target) {
+        int[] array={-1,-1};
+        Queue<int[]> queue=new LinkedList();
+        int[] temp={0,nums.length-1};
+        queue.add(temp);
+        while(!queue.isEmpty()){
+            temp=queue.poll();
+            int start=temp[0];
+            int end=temp[1];
+            if(start>end){
+                continue;
+            }
+            int mid=start+((end-start)>>1);
+            if(nums[mid]==target){
+                if(mid<array[0]||array[0]==-1){
+                    array[0]=mid;
+                }
+                if(mid>array[1]){
+                    array[1]=mid;
+                }
+                temp[1]=mid-1;
+                queue.add(temp);
+                temp=new int[2];
+                temp[0]=mid+1;
+                temp[1]=end;
+                queue.add(temp);
+
+            }else if(nums[mid]>target){
+                temp[1]=mid-1;
+                queue.add(temp);
+            }else{
+                temp[0]=mid+1;
+                queue.add(temp);
             }
         }
-        return targetArray;
+        return array;
     }
 
 
