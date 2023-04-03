@@ -76,6 +76,7 @@ public class KmpSolution {
     public static void main(String[] args) {
         KmpSolution kmpSolution=new KmpSolution();
         System.out.println(kmpSolution.getIndexOfByKmp("sadbutsad","tsad"));
+
     }
 
 }
