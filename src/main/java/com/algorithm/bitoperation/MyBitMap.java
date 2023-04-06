@@ -1,4 +1,4 @@
-package com.algorithm.bitmap;
+package com.algorithm.bitoperation;
 
 /**
  * 自定义bitmap
