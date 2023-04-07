@@ -29,3 +29,6 @@ Queue 接口抛出异常  返回特殊值
 
 
 Arrays.copyOfRange(targetArray,from,to)  // 包含from和不包含to
+str.substring(start,end);
+
+str.reverse() // 反转字符串
