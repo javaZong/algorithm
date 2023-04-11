@@ -45,6 +45,46 @@ public class Solution56 {
         return mergeList.toArray(new int[0][]);
     }
 
+
+    public boolean isRobotBounded(String instructions) {
+        int x = 0;
+        int y = 0;
+        int j = 4;
+        int k = 0;
+        char[] chars = instructions.toCharArray();
+        while (k < 160) {
+            for (char c : chars) {
+                if ('G' == c) {
+                    int i = j % 4;
+                    if (i == 0) {
+                        y++;
+                        j = 4;
+                    } else if (i == 1) {
+                        x--;
+                    } else if (i == 2) {
+                        y--;
+                    } else if (i == 3) {
+                        x++;
+                    }
+
+                } else if ('L' == c) {
+                    j--;
+                } else if ('R' == c) {
+                    j++;
+                }
+            }
+            System.out.println("x=" + x + " y=" + y + " j=" + j);
+            if (x == 0 && y == 0 && j % 4 == 0) {
+                return true;
+            }
+            k++;
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
+        Solution56 solution = new Solution56();
+        System.out.println(solution.isRobotBounded("GLRLGLLGLGRGLGL"));
     }
 }
