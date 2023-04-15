@@ -86,5 +86,9 @@ public class Solution56 {
     public static void main(String[] args) {
         Solution56 solution = new Solution56();
         System.out.println(solution.isRobotBounded("GLRLGLLGLGRGLGL"));
+
+
+        String str="69766955|69766919|69766902|69766907|69766958|69766965|69766966|69766967|69766971|69766972|69766974|69766964|69766975|69766976|69766968|69766969|69766980|69766981|69766984|69766982|69766985|69766988";
+        System.out.println(str.replaceAll("\\|","','"));
     }
 }
