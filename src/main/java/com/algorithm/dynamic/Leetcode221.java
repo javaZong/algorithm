@@ -197,12 +197,32 @@ public class Leetcode221 {
 
     }
 
+    public int findTargetSumWays(int[] nums, int target) {
+        int sum = 0;
+        for (int n : nums) {
+            sum += n;
+        }
+        int neg = sum - target;
+        if (neg < 0 || (neg & 1) != 0) {
+            return 0;
+        }
+        neg = neg >> 1;
+        int[] dp = new int[neg + 1];
+        dp[0] = 1;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = neg; j >= nums[i]; j--) {
+                dp[j] += dp[j - nums[i]];
+            }
+        }
+        return dp[target];
+    }
+
+
+
     public static void main(String[] args) {
         Leetcode221 obj = new Leetcode221();
 //        char[][] matrix = {{'1', '0', '1', '0', '0'}, {'1', '0', '1', '1', '1'}, {'1', '1', '1', '1', '1'}, {'1', '0', '0', '1', '0'}};
 //        System.out.println(obj.maximalSquare(matrix));
-
-        System.out.println(obj.numSquares(12));
     }
 
 
