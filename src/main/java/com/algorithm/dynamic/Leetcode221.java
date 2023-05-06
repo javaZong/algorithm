@@ -217,12 +217,78 @@ public class Leetcode221 {
         return dp[target];
     }
 
+    public int numDecodings(String s) {
+        if (s.startsWith("0")) {
+            return 0;
+        }
+        char[] chars = s.toCharArray();
+        int[] dp = new int[chars.length + 1];
+        dp[0] = 1;
+        for (int i = 1; i <= chars.length; i++) {
 
+            if (chars[i - 1] != '0') {
+                dp[i] = dp[i - 1];
+            }
+            if (i > 1 && chars[i - 2] != '0') {
+                int sum = Character.getNumericValue(chars[i - 2]) * 10 + Character.getNumericValue(chars[i - 1]);
+                if (sum <= 26) {
+                    System.out.println(sum);
+                    dp[i] += dp[i - 2];
+                }
+            }
+
+        }
+        return dp[chars.length];
+    }
+
+    public int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
+        int max = 0;
+        int fEnd = nums.length - firstLen;
+        int sEnd = nums.length - secondLen;
+        int[][] dp = new int[nums.length][nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i; j < nums.length; j++) {
+                if (j == i) {
+                    dp[i][j] = nums[j];
+                } else {
+                    dp[i][j] = dp[i][j - 1] + nums[j];
+                }
+
+            }
+        }
+
+        for (int i = 0; i <= fEnd; i++) {
+
+            int end = i + firstLen - 1;
+            int firstSum = dp[i][end];
+
+            for (int j = 0; j <= sEnd; j++) {
+                if (j >= i && j <= end) {
+                    continue;
+                }
+                int secEnd = j + secondLen - 1;
+                if (secEnd >= i && secEnd <= end) {
+                    continue;
+                }
+                if (j <= i && secEnd >= end) {
+                    continue;
+                }
+                int secSum = dp[j][secEnd];
+
+                if (max < (firstSum + secSum)) {
+                    max = firstSum + secSum;
+                }
+            }
+        }
+        return max;
+    }
 
     public static void main(String[] args) {
         Leetcode221 obj = new Leetcode221();
 //        char[][] matrix = {{'1', '0', '1', '0', '0'}, {'1', '0', '1', '1', '1'}, {'1', '1', '1', '1', '1'}, {'1', '0', '0', '1', '0'}};
-//        System.out.println(obj.maximalSquare(matrix));
+        String s = "2111";
+        int[] nums = {0, 6, 5, 2, 2, 5, 1, 9, 4};
+        System.out.println(obj.maxSumTwoNoOverlap(nums, 1, 2));
     }
 
 
