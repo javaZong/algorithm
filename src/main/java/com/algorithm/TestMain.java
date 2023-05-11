@@ -7,9 +7,16 @@ import java.util.*;
 public class TestMain {
 
     public static void main(String[] args) {
-        String a = "abc";
-        int[] array = {1, 2, 3};
-        System.out.println(Arrays.toString(Arrays.copyOfRange(array, 1, 2)));
+        int n=4;
+        StringBuilder stringBuilder = new StringBuilder();
+//        while((n%2)==0){
+//            n=n>>1;
+//        }
+        while (n != 0) {
+            stringBuilder.append(n % 2);
+            n = n >> 1;
+        }
+        System.out.println(stringBuilder.reverse().reverse());
 
     }
 

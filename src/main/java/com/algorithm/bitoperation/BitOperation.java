@@ -8,13 +8,21 @@ import java.util.Arrays;
 public class BitOperation {
 
 
+    /**
+     * 十进制转二进制
+     * Integer.toString(n,2);
+     *Integer.toBinaryString(n);
+     * @param n
+     * @return
+     */
     public String getBinary(int n) {
+
         StringBuilder stringBuilder = new StringBuilder();
         while (n != 0) {
             stringBuilder.append(n % 2);
             n = n >> 1;
         }
-        return stringBuilder.toString();
+        return stringBuilder.reverse().toString();
     }
 
     public String baseNeg2(int n) {

@@ -78,5 +78,6 @@ public class QuickSort {
 //        quickSortByRecursion(array, 0, array.length - 1);
         quickSortByForeach(array);
         System.out.println(Arrays.toString(array));
+        String s="aa";
     }
 }
