@@ -17,6 +17,7 @@ public class TestMain {
             n = n >> 1;
         }
         System.out.println(stringBuilder.reverse().reverse());
+        System.out.println(Integer.parseInt("01"));
 
     }
 
