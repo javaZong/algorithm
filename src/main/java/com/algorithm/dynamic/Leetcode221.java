@@ -283,6 +283,42 @@ public class Leetcode221 {
         return max;
     }
 
+    /**
+     * 2352. 相等行列对
+     * 中等
+     * <p>
+     * 给你一个下标从 0 开始、大小为 n x n 的整数矩阵 grid ，返回满足 Ri 行和 Cj 列相等的行列对 (Ri, Cj) 的数目。
+     * <p>
+     * 如果行和列以相同的顺序包含相同的元素（即相等的数组），则认为二者是相等的。
+     * <p>
+     * https://leetcode.cn/problems/equal-row-and-column-pairs/
+     *
+     * @param grid
+     * @return
+     */
+    public int equalPairs(int[][] grid) {
+
+        int equalPairSize = 0;
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid.length; j++) {
+                if (judgeEqualPair(i, j, grid)) {
+                    equalPairSize++;
+                }
+            }
+        }
+        return equalPairSize;
+    }
+
+    private boolean judgeEqualPair(int cIndex, int rowIndex, int[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            System.out.println(i + "_" + rowIndex + "::::" + cIndex + "_" + i);
+            if (grid[i][rowIndex] != grid[cIndex][i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public int countSubstrings(String s) {
         // 动态规划法
         boolean[][] dp = new boolean[s.length()][s.length()];
@@ -303,11 +339,12 @@ public class Leetcode221 {
     public static void main(String[] args) {
         Leetcode221 obj = new Leetcode221();
 //        char[][] matrix = {{'1', '0', '1', '0', '0'}, {'1', '0', '1', '1', '1'}, {'1', '1', '1', '1', '1'}, {'1', '0', '0', '1', '0'}};
-        String s = "aaa";
-        int[] nums = {0, 6, 5, 2, 2, 5, 1, 9, 4};
-        System.out.println(obj.countSubstrings(s));
+        String s = "2111";
+//        int[][] nums = {0, 6, 5, 2, 2, 5, 1, 9, 4};
+//        System.out.println(obj.maxSumTwoNoOverlap(nums, 1, 2));
 
-        System.out.println(0<<1);
+        int[][] grid = {{3, 2, 1}, {1, 7, 6}, {2, 7, 7}};
+        System.out.println(obj.equalPairs(grid));
     }
 
 
