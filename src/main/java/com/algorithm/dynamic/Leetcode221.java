@@ -283,12 +283,31 @@ public class Leetcode221 {
         return max;
     }
 
+    public int countSubstrings(String s) {
+        // 动态规划法
+        boolean[][] dp = new boolean[s.length()][s.length()];
+        int ans = 0;
+
+        for (int j = 0; j < s.length(); j++) {
+            for (int i = 0; i <= j; i++) {
+                if (s.charAt(i) == s.charAt(j) && (j - i < 2 || dp[i + 1][j - 1])) {
+                    dp[i][j] = true;
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+
+
     public static void main(String[] args) {
         Leetcode221 obj = new Leetcode221();
 //        char[][] matrix = {{'1', '0', '1', '0', '0'}, {'1', '0', '1', '1', '1'}, {'1', '1', '1', '1', '1'}, {'1', '0', '0', '1', '0'}};
-        String s = "2111";
+        String s = "aaa";
         int[] nums = {0, 6, 5, 2, 2, 5, 1, 9, 4};
-        System.out.println(obj.maxSumTwoNoOverlap(nums, 1, 2));
+        System.out.println(obj.countSubstrings(s));
+
+        System.out.println(0<<1);
     }
 
 
