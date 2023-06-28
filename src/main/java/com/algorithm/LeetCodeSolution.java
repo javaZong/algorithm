@@ -74,27 +74,40 @@ public class LeetCodeSolution {
     public boolean isValidSudoku(char[][] board) {
         boolean[][] column = new boolean[board.length][board.length];
         boolean[][] row = new boolean[board.length][board.length];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
-                if(i%3==0&&j%3==0){
 
-                }
-                if (board[i][j] != '.') {
-                    int n = board[i][j] - '0';
-                    if (column[i][n] || row[j][n]) {
-                        return false;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                boolean[] nine = new boolean[9];
+                int cIndex = i * 3;
+                int cEnd = cIndex + 3;
+                int rowStart = j * 3;
+                int rowEnd = rowStart + 3;
+                for (; cIndex < cEnd; cIndex++) {
+                    for (int rowIndex = rowStart; rowIndex < rowEnd; rowIndex++) {
+                        if (board[cIndex][rowIndex] == '.') {
+                            continue;
+                        }
+                        int n = board[cIndex][rowIndex] - '0' - 1;
+                        if (nine[n] || column[cIndex][n] || row[rowIndex][n]) {
+                            return false;
+                        }
+                        nine[n] = true;
+                        column[cIndex][n] = true;
+                        row[rowIndex][n] = true;
                     }
                 }
+
             }
         }
-        return false;
+        return true;
     }
 
 
     public static void main(String[] args) {
         LeetCodeSolution solution = new LeetCodeSolution();
-        int j = '4';
+        int j = '4' - '0' - 1;
         int i = '0';
-        System.out.println(j - '0');
+        boolean[] booleans = new boolean[1];
+        System.out.println(j);
     }
 }
