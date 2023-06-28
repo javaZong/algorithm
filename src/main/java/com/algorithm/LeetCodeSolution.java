@@ -1,9 +1,12 @@
 package com.algorithm;
 
+import com.algorithm.util.AlgorithmUtils;
 import com.alibaba.fastjson.JSON;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LeetCodeSolution {
 
@@ -68,14 +71,46 @@ public class LeetCodeSolution {
         return minSize;
     }
 
+    /**
+     * 给你一个整数数组，返回它的某个 非空 子数组（连续元素）在执行一次可选的删除操作后，所能得到的最大元素总和。换句话说，你可以从原数组中选出一个子数组，并可以决定要不要从中删除一个元素（只能删一次哦），
+     * （删除后）子数组中至少应当有一个元素，然后该子数组（剩下）的元素总和是所有子数组之中最大的。
+     * <p>
+     * 注意，删除一个元素后，子数组 不能为空。
+     * <p>
+     * https://leetcode.cn/problems/maximum-subarray-sum-with-one-deletion/
+     *
+     * @param arr
+     * @return
+     */
+    public int maximumSum(int[] arr) {
+        // dp[i][k] 代表以下标i结尾，被删了k次的子数组的最大值
+//        int[][] dp = new int[arr.length][2];
+//        dp[0][0] = arr[0];
+//        int maxSum = arr[0];
+//        for (int i = 1; i < arr.length; i++) {
+//            dp[i][0] = Math.max(dp[i - 1][0], 0) + arr[i];
+//            dp[i][1] = Math.max(dp[i - 1][1] + arr[i], dp[i - 1][0]);
+//            maxSum = Math.max(maxSum, Math.max(dp[i][0], dp[i][1]));
+//        }
+//        return maxSum;
+        int delZeroMaxSum = 0;
+        int delOneMaxSum = 0;
+        int preDelZeroMaxSum = arr[0];
+        int preDelOneMaxSum = 0;
+        int maximumSum = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            delZeroMaxSum = Math.max(preDelZeroMaxSum, 0) + arr[i];
+            delOneMaxSum = Math.max(preDelOneMaxSum + arr[i], preDelZeroMaxSum);
+            preDelZeroMaxSum = delZeroMaxSum;
+            preDelOneMaxSum = delOneMaxSum;
+            maximumSum = Math.max(maximumSum, Math.max(delZeroMaxSum, delOneMaxSum));
+        }
+        return maximumSum;
+    }
+
     public static void main(String[] args) {
         LeetCodeSolution solution = new LeetCodeSolution();
-        String str="zaaazhjklhlk";
-        System.out.println(solution.f(str));
-//        String[] queries = {"bbb","cc"};
-//        String[] words = {"zaaazhjklhlk"};
-//        int[] nums = solution.numSmallerByFrequency(queries, words);
-//
-//        System.out.println("args = " + JSON.toJSONString(nums));
+        int[] array = {1, -4, -5, -2, 5, 0, -1, 2};
+        System.out.println(solution.maximumSum(array));
     }
 }
