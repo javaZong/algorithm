@@ -102,12 +102,46 @@ public class LeetCodeSolution {
         return true;
     }
 
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int threeSumClosest = 0;
+        int min = Integer.MAX_VALUE;
+        int preSum = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                int subSum = nums[i] + nums[j];
+                for (int k = j + 1; k < nums.length; k++) {
+                    int temp = subSum + nums[k];
+
+                    int diff = Math.abs(temp - target);
+                    if (diff <= min) {
+                        min = diff;
+                        threeSumClosest = temp;
+                    } else {
+                        System.out.println(temp + " " + diff + " " + i + " " + j + " " + k + " " + min);
+                        break;
+                    }
+                }
+
+            }
+        }
+        return threeSumClosest;
+    }
 
     public static void main(String[] args) {
         LeetCodeSolution solution = new LeetCodeSolution();
-        int j = '4' - '0' - 1;
-        int i = '0';
         boolean[] booleans = new boolean[1];
-        System.out.println(j);
+
+        int[] nums = {0, 3, 97, 102, 200};
+
+//        System.out.println(solution.threeSumClosest(nums, 300));
+        for (int i = 0; i < 10; i++) {
+            for (int j = i + 1; j < 10; j++) {
+                if (j == 4) {
+                    break;
+                }
+                System.out.println(j);
+            }
+        }
     }
 }
