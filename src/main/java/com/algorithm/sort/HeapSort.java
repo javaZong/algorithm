@@ -41,9 +41,11 @@ public class HeapSort {
      * @param arraySize 最大小标-1 控制不能越界
      */
     private static void heapify(int[] array, int i, int arraySize) {
-        int leftIndex = (i << 1) + 1;
+
         int rightIndex = 0;
-        while (leftIndex < arraySize) {
+        int half=arraySize>>1;
+        while (i < half) {
+            int leftIndex = (i << 1) + 1;
             rightIndex = leftIndex + 1;
             int largestIndex = rightIndex < arraySize && array[rightIndex] > array[leftIndex] ? rightIndex : leftIndex;
             largestIndex = array[largestIndex] > array[i] ? largestIndex : i;
@@ -52,7 +54,6 @@ public class HeapSort {
             }
             AlgorithmUtils.swap(array, i, largestIndex);
             i = largestIndex;
-            leftIndex = (i << 1)  + 1;
         }
     }
 
