@@ -11,7 +11,8 @@ public class BitOperation {
     /**
      * 十进制转二进制
      * Integer.toString(n,2);
-     *Integer.toBinaryString(n);
+     * Integer.toBinaryString(n);
+     *
      * @param n
      * @return
      */
@@ -79,11 +80,17 @@ public class BitOperation {
         return count;
     }
 
-    public static void main(String[] args) {
-        BitOperation operation = new BitOperation();
-        System.out.println(operation.baseNeg2(2));
-        char[] chars = {'a', 'b'};
-        System.out.println(new String(chars));
+    public static int findNextPositivePowerOfTwo(int value) {
+        assert value > Integer.MIN_VALUE && value < 1073741824;
 
+        return 1 << 32 - Integer.numberOfLeadingZeros(value - 1);
+    }
+
+    public static void main(String[] args) {
+//        BitOperation operation = new BitOperation();
+//        System.out.println(operation.baseNeg2(2));
+//        char[] chars = {'a', 'b'};
+//        System.out.println(new String(chars));
+        System.out.println("args = " + Integer.numberOfLeadingZeros(3));
     }
 }
