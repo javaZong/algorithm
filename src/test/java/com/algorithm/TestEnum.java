@@ -1,4 +1,4 @@
-package com.algorithm.singleton;
+package com.algorithm;
 
 public enum TestEnum {
     INSTANCE;
