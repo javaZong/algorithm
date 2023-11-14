@@ -17,7 +17,9 @@ public class TopKSolution {
         for (int n : nums) {
             if (priorityQueue.size() < k) {
                 priorityQueue.add(n);
-            } else if (n > priorityQueue.peek()) {
+                continue;
+            }
+            if (n > priorityQueue.peek()) {
                 // 如果当前数大于，最小堆里的最小值，则当前数是有可能在topk里的
                 priorityQueue.poll();
                 priorityQueue.add(n);
