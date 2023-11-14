@@ -70,10 +70,10 @@ public class TopKSolution {
     private int findPointIndex(int[] nums, int left, int right) {
 
         int temp = nums[left];
-        // 快慢指针，当快指针遇到一个比temp小的值时，与慢指针交换
+        // 快慢指针，当快指针遇到一个不小于temp的值时，与慢指针交换
         int slowIndex = left + 1;
         for (int fastIndex = slowIndex; fastIndex <= right; fastIndex++) {
-            if (nums[fastIndex] < temp) {
+            if (nums[fastIndex] >= temp) {
                 AlgorithmUtils.swap(nums, slowIndex, fastIndex);
                 slowIndex++;
             }
@@ -185,7 +185,7 @@ public class TopKSolution {
         TopKSolution solution = new TopKSolution();
         int[] nums = {1, 2, 3, 4, 5, 6, 7};
         System.out.println("args = " + Arrays.toString(nums));
-        solution.reOrderArray(nums);
-        System.out.println("target = " + Arrays.toString(nums));
+//        solution.reOrderArray(nums);
+        System.out.println("target = " + Arrays.toString(solution.findTopKByQuickSort(nums,3)));
     }
 }
