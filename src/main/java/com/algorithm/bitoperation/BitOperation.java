@@ -87,10 +87,13 @@ public class BitOperation {
     }
 
     public static void main(String[] args) {
-//        BitOperation operation = new BitOperation();
+     BitOperation operation = new BitOperation();
 //        System.out.println(operation.baseNeg2(2));
 //        char[] chars = {'a', 'b'};
 //        System.out.println(new String(chars));
         System.out.println("args = " + Integer.numberOfLeadingZeros(3));
+//        System.out.println(operation.getBinary(2701783117));
+        System.out.println(Integer.MAX_VALUE);
+        System.out.println((1<<23)-1);
     }
 }

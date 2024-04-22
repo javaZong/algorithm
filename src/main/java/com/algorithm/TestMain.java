@@ -7,18 +7,10 @@ import java.util.*;
 public class TestMain {
 
     public static void main(String[] args) {
-        int n=4;
-        StringBuilder stringBuilder = new StringBuilder();
-//        while((n%2)==0){
-//            n=n>>1;
-//        }
-        while (n != 0) {
-            stringBuilder.append(n % 2);
-            n = n >> 1;
-        }
-        System.out.println(stringBuilder.reverse().reverse());
-        System.out.println(Integer.parseInt("01"));
-
+        String str = "";
+        char[] chars = str.toCharArray();
+        Arrays.sort(chars);
+        System.out.println(new String(chars));
     }
 
     public static int maxSubArray(int[] nums) {
