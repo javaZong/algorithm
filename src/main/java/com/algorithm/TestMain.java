@@ -11,6 +11,10 @@ public class TestMain {
         char[] chars = str.toCharArray();
         Arrays.sort(chars);
         System.out.println(new String(chars));
+        System.out.println(1>>31);
+        System.out.println(1<<31);
+        List arrayList=new ArrayList();
+        
     }
 
     public static int maxSubArray(int[] nums) {

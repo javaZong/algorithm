@@ -244,9 +244,11 @@ public class DynamicSolution {
 
     public static void main(String[] args) {
         DynamicSolution dynamicSolution = new DynamicSolution();
-        int[] coins = {2, 7, 9, 6, 1};
-        System.out.println(dynamicSolution.rob(coins));
+//        int[] coins = {2, 7, 9, 6, 1};
+//        System.out.println(dynamicSolution.rob(coins));
+
     }
+
 
 
 }
