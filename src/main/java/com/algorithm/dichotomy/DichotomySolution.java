@@ -21,7 +21,7 @@ public class DichotomySolution {
         int right = array.length - 1;
         int targetIndex = -1;
         while (left <= right) {
-            int center = left + (right - left) / 2;
+            int center = (right + left) / 2;
             if (array[center] < target) {
                 left = center + 1;
             } else {
@@ -125,72 +125,72 @@ public class DichotomySolution {
      * @return
      */
     public int[] searchRange(int[] nums, int target) {
-        int[] ranges={-1,-1};
-        process(target,nums,0,nums.length-1,ranges);
+        int[] ranges = {-1, -1};
+        process(target, nums, 0, nums.length - 1, ranges);
         return ranges;
     }
 
-    private void process(int target,int[] nums,int left,int right,int[] ranges){
-        if(left>right){
+    private void process(int target, int[] nums, int left, int right, int[] ranges) {
+        if (left > right) {
             return;
         }
-        while(left<=right){
-            int mid=left+((right-left)>>1);
-            int midNum=nums[mid];
-            if(midNum==target){
-                if(mid<ranges[0]||ranges[0]==-1){
-                    ranges[0]=mid;
-                    process(target,nums,left,mid-1,ranges);
+        while (left <= right) {
+            int mid = left + ((right - left) >> 1);
+            int midNum = nums[mid];
+            if (midNum == target) {
+                if (mid < ranges[0] || ranges[0] == -1) {
+                    ranges[0] = mid;
+                    process(target, nums, left, mid - 1, ranges);
                 }
-                if(mid>ranges[1]){
-                    ranges[1]=mid;
-                    process(target,nums,mid+1,right,ranges);
+                if (mid > ranges[1]) {
+                    ranges[1] = mid;
+                    process(target, nums, mid + 1, right, ranges);
                 }
 
                 return;
             }
-            if(midNum>target){
-                process(target,nums,left,mid-1,ranges);
+            if (midNum > target) {
+                process(target, nums, left, mid - 1, ranges);
                 return;
             }
-            process(target,nums,mid+1,right,ranges);
+            process(target, nums, mid + 1, right, ranges);
             return;
         }
 
     }
 
     public int[] searchRangeByForeach(int[] nums, int target) {
-        int[] array={-1,-1};
-        Queue<int[]> queue=new LinkedList();
-        int[] temp={0,nums.length-1};
+        int[] array = {-1, -1};
+        Queue<int[]> queue = new LinkedList();
+        int[] temp = {0, nums.length - 1};
         queue.add(temp);
-        while(!queue.isEmpty()){
-            temp=queue.poll();
-            int start=temp[0];
-            int end=temp[1];
-            if(start>end){
+        while (!queue.isEmpty()) {
+            temp = queue.poll();
+            int start = temp[0];
+            int end = temp[1];
+            if (start > end) {
                 continue;
             }
-            int mid=start+((end-start)>>1);
-            if(nums[mid]==target){
-                if(mid<array[0]||array[0]==-1){
-                    array[0]=mid;
+            int mid = start + ((end - start) >> 1);
+            if (nums[mid] == target) {
+                if (mid < array[0] || array[0] == -1) {
+                    array[0] = mid;
                 }
-                if(mid>array[1]){
-                    array[1]=mid;
+                if (mid > array[1]) {
+                    array[1] = mid;
                 }
-                temp[1]=mid-1;
+                temp[1] = mid - 1;
                 queue.add(temp);
-                temp=new int[2];
-                temp[0]=mid+1;
-                temp[1]=end;
+                temp = new int[2];
+                temp[0] = mid + 1;
+                temp[1] = end;
                 queue.add(temp);
 
-            }else if(nums[mid]>target){
-                temp[1]=mid-1;
+            } else if (nums[mid] > target) {
+                temp[1] = mid - 1;
                 queue.add(temp);
-            }else{
-                temp[0]=mid+1;
+            } else {
+                temp[0] = mid + 1;
                 queue.add(temp);
             }
         }
@@ -198,12 +198,29 @@ public class DichotomySolution {
     }
 
 
-
     public static void main(String[] args) {
         DichotomySolution dichotomySolution = new DichotomySolution();
-        int[] array = {4, 5, 6, 7, 0, 1, 2};
-        System.out.println(dichotomySolution.findMin(array));
-        Map map=new HashMap();
+        int[] array = {1, 4, 7, 11, 15};
+        System.out.println(dichotomySolution.binarySearch(array, 5));
+        Map map = new HashMap();
 
     }
+
+    public static int binarySearch(int[] nums, int target) {
+        // 初始化双闭区间 [0, n-1] ，即 i, j 分别指向数组首元素、尾元素
+        int i = 0, j = nums.length - 1;
+        // 循环，当搜索区间为空时跳出（当 i > j 时为空）
+        while (i <= j) {
+            int m = i + (j - i) / 2; // 计算中点索引 m
+            if (nums[m] < target) // 此情况说明 target 在区间 [m+1, j] 中
+                i = m + 1;
+            else if (nums[m] > target) // 此情况说明 target 在区间 [i, m-1] 中
+                j = m - 1;
+            else // 找到目标元素，返回其索引
+                return m;
+        }
+        // 未找到目标元素，返回 -1
+        return -1;
+    }
+
 }

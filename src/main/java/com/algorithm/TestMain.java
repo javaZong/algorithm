@@ -13,8 +13,8 @@ public class TestMain {
         System.out.println(new String(chars));
         System.out.println(1>>31);
         System.out.println(1<<31);
-        List arrayList=new ArrayList();
-        
+        List arrayList=new ArrayList(1);
+        System.out.println(arrayList.size());
     }
 
     public static int maxSubArray(int[] nums) {
