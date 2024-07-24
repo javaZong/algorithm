@@ -270,27 +270,25 @@ public class ForeachBinaryTree {
      * push() 压入堆顶
      * 需要知道之前已被访问的节点
      *
-     * @param array
+     * @param root
      */
-    public static void midForeachLoop(int[] array) {
-        int maxIndex;
-        if (array == null || (maxIndex = array.length - 1) < 0) {
-            return;
+    public static List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list=new ArrayList();
+        if(root==null){
+            return list;
         }
-        Stack<Integer> stack = new Stack<>();
-        stack.push(0);
-        Integer curIndex = 0;
-        while (!stack.isEmpty() || curIndex <= maxIndex) {
-            while (curIndex <= maxIndex) {
-                // 存在左子树节点，则压入栈
-                stack.push(curIndex);
-                curIndex = curIndex * 2 + 1;
+        Stack<TreeNode> stack=new Stack();
+        TreeNode node=root;
+        while(node!=null||!stack.isEmpty()){
+            while(node!=null){
+                stack.push(node);
+                node=node.left;
             }
-            // 不存在，则代表左子树已遍历完,开始遍历右子树节点
-            curIndex = stack.pop();
-            System.out.println("midForeachLoop=" + array[curIndex]);
-            curIndex = curIndex * 2 + 2;
+            node= stack.pop();
+            list.add(node.val);
+            node=node.right;
         }
+        return list;
     }
 
     /**

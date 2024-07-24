@@ -7,14 +7,10 @@ import java.util.*;
 public class TestMain {
 
     public static void main(String[] args) {
-        String str = "";
-        char[] chars = str.toCharArray();
-        Arrays.sort(chars);
-        System.out.println(new String(chars));
-        System.out.println(1>>31);
-        System.out.println(1<<31);
-        List arrayList=new ArrayList(1);
-        System.out.println(arrayList.size());
+        System.out.println(~(-1<<28));
+        long seconds=System.currentTimeMillis()/1000-1432051220;
+        System.out.println(seconds<<35);
+        System.out.println(1463673600+(~(-1<<28)));
     }
 
     public static int maxSubArray(int[] nums) {
