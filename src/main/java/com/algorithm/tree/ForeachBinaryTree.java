@@ -171,6 +171,7 @@ public class ForeachBinaryTree {
      * a.如果mostRight的右指针指向空，让其指向cur,然后cur向左移动(cur = cur.left)
      * b.如果mostRight的右指针指向cur，让其指向null然后cur向右移动(cur = cur.right)
      * 3)cur为空时遍历停止
+     *
      * @param root
      */
     public static void morris(TreeNode root) {
@@ -186,41 +187,76 @@ public class ForeachBinaryTree {
                     mostRightNode.right = cur;
                     cur = cur.left;
                 } else {
-                    // mostRightNode.right不为空 代表当前cur已经走过了
+                    // 说明左子树已经访问完了，我们需要断开链接
                     mostRightNode.right = null;
+                    cur = cur.right;
                 }
+            } else {
+                cur = cur.right;
             }
-            cur = cur.right;
+
         }
 
     }
 
-    public static void preMorris(TreeNode root) {
+    public static List<Integer> preMorris(TreeNode root) {
+        List<Integer> list = new ArrayList();
         TreeNode cur = root;
         TreeNode mostRightNode = null;
         while (cur != null) {
-
             mostRightNode = cur.left;
             if (mostRightNode != null) {
-
                 while (mostRightNode.right != null && mostRightNode.right != cur) {
                     mostRightNode = mostRightNode.right;
                 }
                 if (mostRightNode.right == null) {
                     mostRightNode.right = cur;
-                    // 首次遍历时打印
-                    System.out.println(cur.val);
+                    list.add(cur.val);
                     cur = cur.left;
                 } else {
-                    // mostRightNode.right不为空 代表当前cur已经走过了，第二次走得时候直接略过
+                    // mostRightNode.right不为空 代表当前cur已经走过了
                     mostRightNode.right = null;
+                    cur = cur.right;
                 }
             } else {
-                System.out.println(cur.val);
+                list.add(cur.val);
+                cur = cur.right;
             }
-            cur = cur.right;
-        }
 
+        }
+        return list;
+
+    }
+
+    public static List<Integer> inorderMorris(TreeNode root) {
+        TreeNode cur = root;
+        TreeNode rightMost = null;
+        List<Integer> list = new ArrayList();
+        while (cur != null) {
+            rightMost = cur.left;
+            if (rightMost != null) {
+
+                while (rightMost.right != null && rightMost.right != cur) {
+                    rightMost = rightMost.right;
+                }
+                if (rightMost.right == null) {
+                    // 让 rightMost 的右指针指向 root，继续遍历左子树
+                    rightMost.right = cur;
+                    cur = cur.left;
+                } else {
+                    // 说明左子树已经访问完了，我们需要断开链接
+                    list.add(cur.val);
+                    rightMost.right = null;
+                    cur = cur.right;
+                }
+            } else {
+                // 如果没有左孩子，则直接访问右孩子
+                list.add(cur.val);
+                cur = cur.right;
+            }
+
+        }
+        return list;
     }
 
     private static TreeNode findMostRight(TreeNode root) {
@@ -273,20 +309,20 @@ public class ForeachBinaryTree {
      * @param root
      */
     public static List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> list=new ArrayList();
-        if(root==null){
+        List<Integer> list = new ArrayList();
+        if (root == null) {
             return list;
         }
-        Stack<TreeNode> stack=new Stack();
-        TreeNode node=root;
-        while(node!=null||!stack.isEmpty()){
-            while(node!=null){
+        Stack<TreeNode> stack = new Stack();
+        TreeNode node = root;
+        while (node != null || !stack.isEmpty()) {
+            while (node != null) {
                 stack.push(node);
-                node=node.left;
+                node = node.left;
             }
-            node= stack.pop();
+            node = stack.pop();
             list.add(node.val);
-            node=node.right;
+            node = node.right;
         }
         return list;
     }
