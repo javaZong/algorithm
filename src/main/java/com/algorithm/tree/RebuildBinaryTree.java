@@ -109,10 +109,13 @@ public class RebuildBinaryTree {
     }
 
     public static void main(String[] args) {
-        int[] pre = {1, 2, 4, 7, 3, 5, 6, 8};
-        int[] in = {4, 7, 2, 1, 5, 3, 8, 6};
-        TreeNode treeNode = reConstructBinaryTree(pre, in);
-        System.out.println(treeNode);
+//        int[] pre = {1, 2, 4, 7, 3, 5, 6, 8};
+//        int[] in = {4, 7, 2, 1, 5, 3, 8, 6};
+//        TreeNode treeNode = reConstructBinaryTree(pre, in);
+//        System.out.println(treeNode);
+        int[] nums={-10,-3,0,5,9};
+        TreeNode node=sortedArrayToBST(nums);
+
     }
 
 
@@ -139,5 +142,31 @@ public class RebuildBinaryTree {
 
         pre(node.left, array, reExcursiveTimes);
         pre(node.right, array, reExcursiveTimes);
+    }
+
+
+    /**
+     * 给你一个整数数组 nums ，其中元素已经按 升序 排列，请你将其转换为一棵
+     * 平衡
+     *  二叉搜索树。
+     * @param nums
+     * @return
+     */
+    public static TreeNode sortedArrayToBST(int[] nums) {
+        return bst(nums,0,nums.length-1);
+    }
+
+    public static TreeNode bst(int[] nums,int left,int right){
+        if(left>right){
+            return null;
+        }
+        if(left==right){
+            return new TreeNode(nums[left]);
+        }
+        int mid=(right+left)/2;
+        TreeNode midNode=new TreeNode(mid);
+        midNode.left=bst(nums,left,mid-1);
+        midNode.right=bst(nums,mid+1,right);
+        return midNode;
     }
 }

@@ -2,7 +2,9 @@ package com.algorithm.tree;
 
 import com.algorithm.model.TreeNode;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -139,5 +141,41 @@ public class Solution {
             return root;
         }
         return leftNode != null ? leftNode : rightNode;
+    }
+
+    /**
+     * 437. 路径总和 III
+     * https://leetcode.cn/problems/path-sum-iii/description/?envType=study-plan-v2&envId=top-100-liked
+     * 给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于 targetSum 的 路径 的数目。
+     * <p>
+     * 路径 不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。
+     *
+     * @param root
+     * @param targetSum
+     * @return
+     */
+    public int pathSum(TreeNode root, int targetSum) {
+        if (root == null) {
+            return 0;
+        }
+        Map<Long, Integer> map = new HashMap();
+        map.put(0L, 1);
+        pathNumWithPreSum(root, 0L, map, targetSum);
+        return pathSum;
+    }
+
+    private int pathSum;
+
+    private void pathNumWithPreSum(TreeNode node, long preSum, Map<Long, Integer> map, int targetSum) {
+        if (node == null) {
+            return;
+        }
+        preSum = preSum + node.val;
+        pathSum = pathSum + map.getOrDefault(preSum - targetSum, 0);
+        int nodeSum = map.getOrDefault(preSum, 0) + 1;
+        map.put(preSum, nodeSum);
+        pathNumWithPreSum(node.left, preSum, map, targetSum);
+        pathNumWithPreSum(node.right, preSum, map, targetSum);
+        map.put(preSum, nodeSum - 1);
     }
 }
