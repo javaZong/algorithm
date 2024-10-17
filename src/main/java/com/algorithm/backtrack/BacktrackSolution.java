@@ -178,19 +178,20 @@ public class BacktrackSolution {
      */
     public List<List<Integer>> permute(int[] nums) {
         List<List<Integer>> totalList = new ArrayList();
+        // 这块取决于是否允许修改原数组
         int[] array = Arrays.copyOf(nums, nums.length);
-        process(0, nums, array, totalList);
+        process(0, array, totalList);
         return totalList;
     }
 
-    private void process(int i, int[] nums, int[] array, List<List<Integer>> totalList) {
-        if (i == nums.length) {
+    private void process(int i, int[] array, List<List<Integer>> totalList) {
+        if (i == array.length) {
             totalList.add(addList(array));
             return;
         }
-        for (int j = i; j < nums.length; j++) {
+        for (int j = i; j < array.length; j++) {
             swap(array, i, j);
-            process(i + 1, nums, array, totalList);
+            process(i + 1, array, totalList);
             swap(array, j, i);
         }
     }
@@ -268,7 +269,7 @@ public class BacktrackSolution {
      * @return
      */
     public List<String> generateParenthesis(int n) {
-        int length=n<<1;
+        int length = n << 1;
         char[] chars = new char[length];
         List<String> list = new ArrayList<>();
         generateParenthesisProcess(0, n, n, chars, list, length);
@@ -284,7 +285,7 @@ public class BacktrackSolution {
 
         if (leftNumSize > 0) {
             chars[i] = '(';
-            generateParenthesisProcess(i + 1, leftNumSize-1, rightNumSize, chars, list, n);
+            generateParenthesisProcess(i + 1, leftNumSize - 1, rightNumSize, chars, list, n);
         }
         if (leftNumSize < rightNumSize && rightNumSize > 0) {
             chars[i] = ')';

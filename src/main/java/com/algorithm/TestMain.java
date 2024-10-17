@@ -11,6 +11,9 @@ public class TestMain {
         long seconds=System.currentTimeMillis()/1000-1432051220;
         System.out.println(seconds<<35);
         System.out.println(1463673600+(~(-1<<28)));
+
+        int[] array=new int[2];
+
     }
 
     public static int maxSubArray(int[] nums) {
